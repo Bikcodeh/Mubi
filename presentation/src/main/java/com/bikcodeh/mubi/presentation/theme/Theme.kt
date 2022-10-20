@@ -1,4 +1,4 @@
-package com.bikcodeh.mubi.ui.theme
+package com.bikcodeh.mubi.presentation.theme
 
 import android.app.Activity
 import android.os.Build
