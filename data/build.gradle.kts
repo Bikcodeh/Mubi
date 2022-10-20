@@ -1,11 +1,10 @@
 plugins {
-    id(Config.Plugins.androidLibrary)
-    id(Config.Plugins.kotlinAndroid)
-    id(Config.Plugins.kotlinKapt)
-    id(Config.Plugins.daggerHilt)
-    id(Config.Plugins.jacoco)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("jacoco")
 }
-
 android {
     compileSdk = Config.AndroidSdk.compile
     namespace = "com.bikcodeh.mubi.data"
