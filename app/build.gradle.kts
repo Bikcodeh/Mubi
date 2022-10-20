@@ -16,8 +16,8 @@ android {
         applicationId = "com.bikcodeh.mubi"
         minSdk = Config.AndroidSdk.minSdk
         targetSdk = Config.AndroidSdk.target
-        versionCode = Config.AndroidSdk.versionCode
-        versionName = Config.AndroidSdk.versionName
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = Config.AndroidSdk.instrumentationRunner
         vectorDrawables {
