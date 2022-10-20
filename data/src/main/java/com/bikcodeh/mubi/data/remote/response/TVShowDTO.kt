@@ -1,20 +1,21 @@
 package com.bikcodeh.mubi.data.remote.response
 
+import com.bikcodeh.mubi.domain.model.TVShow
 import com.squareup.moshi.Json
 
 data class TVShowDTO(
     @Json(name = "backdrop_path")
-    val backdrop_path: String,
+    val backdropPath: String,
     @Json(name = "first_air_date")
-    val first_air_date: String,
+    val firstAirDate: String,
     @Json(name = "genre_ids")
-    val genre_ids: List<Int>,
+    val genreIds: List<Int>,
     val id: Int,
     val name: String,
     @Json(name = "origin_country")
-    val origin_country: List<String>,
+    val originCountry: List<String>,
     @Json(name = "original_language")
-    val original_language: String,
+    val originalLanguage: String,
     @Json(name = "original_name")
     val originalName: String,
     val overview: String,
@@ -25,4 +26,20 @@ data class TVShowDTO(
     val voteAverage: Double,
     @Json(name = "vote_count")
     val voteCount: Int
-)
+) {
+    fun toDomain(): TVShow = TVShow(
+        backdropPath,
+        firstAirDate,
+        genreIds,
+        id,
+        name,
+        originCountry,
+        originalLanguage,
+        originalName,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage,
+        voteCount
+    )
+}
