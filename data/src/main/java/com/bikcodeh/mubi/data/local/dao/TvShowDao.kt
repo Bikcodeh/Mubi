@@ -15,4 +15,7 @@ interface TvShowDao {
 
     @Query("SELECT * FROM tvshow WHERE category = :category")
     fun getTvShows(category: String): PagingSource<Int, TvShowEntity>
+
+    @Query("UPDATE tvshow SET isFavorite = :isFavorite WHERE id = :tvShowId")
+    suspend fun setIsFavorite(tvShowId: Int ,isFavorite: Boolean)
 }
