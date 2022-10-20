@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(Config.Dependencies.Jetpack.coreKtx)
     implementation(Config.Dependencies.Jetpack.paging)
+    implementation(Config.Dependencies.Jetpack.roomPaging)
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)

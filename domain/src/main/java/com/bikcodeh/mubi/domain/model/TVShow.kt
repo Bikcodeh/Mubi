@@ -3,10 +3,8 @@ package com.bikcodeh.mubi.domain.model
 data class TVShow(
     val backdropPath: String,
     val firstAirDate: String,
-    val genreIds: List<Int>,
     val id: Int,
     val name: String,
-    val originCountry: List<String>,
     val originalLanguage: String,
     val originalName: String,
     val overview: String,
@@ -15,5 +13,5 @@ data class TVShow(
     val voteAverage: Double,
     val voteCount: Int,
     var isFavorite: Boolean = false,
-    val category: String
+    val category: String = ""
 )

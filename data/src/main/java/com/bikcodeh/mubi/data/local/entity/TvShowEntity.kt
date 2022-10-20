@@ -1,15 +1,15 @@
 package com.bikcodeh.mubi.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "tvshow")
 data class TvShowEntity(
     val backdropPath: String,
     val firstAirDate: String,
-    val genreIds: List<Int>,
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-    val originCountry: List<String>,
     val originalLanguage: String,
     val originalName: String,
     val overview: String,

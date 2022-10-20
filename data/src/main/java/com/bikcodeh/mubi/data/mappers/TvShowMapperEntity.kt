@@ -11,10 +11,8 @@ class TvShowMapperEntity : Mapper<TvShowEntity, TVShow> {
             TVShow(
                 backdropPath,
                 firstAirDate,
-                genreIds,
                 id,
                 name,
-                originCountry,
                 originalLanguage,
                 originalName,
                 overview,
