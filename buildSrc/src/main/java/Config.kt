@@ -61,6 +61,7 @@ object Config {
             const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.lifecycle}"
             const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.lifecycle}"
             const val paging = "androidx.paging:paging-runtime-ktx:${Version.paging}"
+            const val roomPaging = "androidx.room:room-paging:${Version.room}"
         }
 
         object AppCenter {
@@ -77,7 +78,7 @@ object Config {
                 const val activity = "1.3.1"
                 const val navigation = "2.5.0-rc02"
                 const val constraintLayout = "1.0.1"
-                const val paging = "1.0.0-alpha14"
+                const val paging = "1.0.0-alpha15"
                 const val lifecycle = "2.6.0-alpha02"
             }
 

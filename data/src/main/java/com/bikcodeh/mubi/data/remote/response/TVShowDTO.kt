@@ -8,12 +8,8 @@ data class TVShowDTO(
     val backdropPath: String,
     @Json(name = "first_air_date")
     val firstAirDate: String,
-    @Json(name = "genre_ids")
-    val genreIds: List<Int>,
     val id: Int,
     val name: String,
-    @Json(name = "origin_country")
-    val originCountry: List<String>,
     @Json(name = "original_language")
     val originalLanguage: String,
     @Json(name = "original_name")
@@ -30,10 +26,8 @@ data class TVShowDTO(
     fun toDomain(): TVShow = TVShow(
         backdropPath,
         firstAirDate,
-        genreIds,
         id,
         name,
-        originCountry,
         originalLanguage,
         originalName,
         overview,
