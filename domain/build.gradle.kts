@@ -25,6 +25,8 @@ dependencies {
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
     kapt(Config.Dependencies.DaggerHilt.androidXHiltCompiler)
+    /** Retrofit */
+    implementation(Config.Dependencies.Network.retrofit)
     /** Timber */
     implementation(Config.Dependencies.timber)
     /** Lifecycle */

@@ -11,6 +11,23 @@ android {
     defaultConfig {
         minSdk = Config.AndroidSdk.minSdk
         targetSdk = Config.AndroidSdk.target
+
+        buildTypes {
+            getByName("debug") {
+                buildConfigField(
+                    type = "String",
+                    name = "API_DB_KEY",
+                    value = "4662e7a7fe13c9d91c80552e10a09dc1"
+                )
+            }
+            getByName("release") {
+                buildConfigField(
+                    type = "String",
+                    name = "API_DB_KEY",
+                    value = "4662e7a7fe13c9d91c80552e10a09dc1"
+                )
+            }
+        }
     }
 }
 
@@ -21,6 +38,7 @@ kapt {
 dependencies {
     implementation(project(":domain"))
     implementation(Config.Dependencies.Jetpack.coreKtx)
+    implementation(Config.Dependencies.Jetpack.paging)
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
