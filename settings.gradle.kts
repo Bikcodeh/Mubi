@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "Mubi"
 include(":app")
 include(":data")
+include(":domain")
