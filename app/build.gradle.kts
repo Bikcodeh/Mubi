@@ -26,18 +26,19 @@ android {
     }
 
     buildTypes {
+        val appCenterKey = "d5f7c121-8b57-469a-818b-5c3aa526e965"
         getByName("debug") {
             buildConfigField(
                 type = "String",
                 name = "APP_CENTER_KEY",
-                value = "d5f7c121-8b57-469a-818b-5c3aa526e965"
+                value = '"' + appCenterKey + '"'
             )
         }
         getByName("release") {
             buildConfigField(
                 type = "String",
                 name = "APP_CENTER_KEY",
-                value = "d5f7c121-8b57-469a-818b-5c3aa526e965"
+                value = '"' + appCenterKey + '"'
             )
             isMinifyEnabled = false
             proguardFiles(
