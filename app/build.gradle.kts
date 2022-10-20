@@ -26,18 +26,19 @@ android {
     }
 
     buildTypes {
+        val appCenterKey = "d5f7c121-8b57-469a-818b-5c3aa526e965"
         getByName("debug") {
             buildConfigField(
                 type = "String",
                 name = "APP_CENTER_KEY",
-                value = getProps("APP_CENTER_KEY")
+                value = '"' + appCenterKey + '"'
             )
         }
         getByName("release") {
             buildConfigField(
                 type = "String",
                 name = "APP_CENTER_KEY",
-                value = getProps("APP_CENTER_KEY")
+                value = '"' + appCenterKey + '"'
             )
             isMinifyEnabled = false
             proguardFiles(
@@ -68,6 +69,8 @@ android {
 
 dependencies {
     implementation(project(":presentation"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
