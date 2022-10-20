@@ -40,13 +40,18 @@ object Config {
             const val paging = "3.1.0"
             const val accompanist = "0.26.5-rc"
             const val jacoco = "0.8.7"
+            const val coil = "2.2.2"
+            const val materialIcons = "1.1.1"
         }
 
         const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:${Version.moshi}"
         const val lottie = "com.airbnb.android:lottie-compose:${Version.lottie}"
         const val navigationAnimation = "com.google.accompanist:accompanist-navigation-animation:${Version.accompanist}"
         const val placeholder = "com.google.accompanist:accompanist-placeholder-material:${Version.accompanist}"
+        const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:${Version.accompanist}"
         const val timber = "com.jakewharton.timber:timber:${Version.timber}"
+        const val coilImages = "io.coil-kt:coil-compose:${Version.coil}"
+        const val materialIcons = "androidx.compose.material:material-icons-extended:${Version.materialIcons}"
 
         object Jetpack {
             const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"
@@ -73,6 +78,7 @@ object Config {
                 const val navigation = "2.5.0-rc02"
                 const val constraintLayout = "1.0.1"
                 const val paging = "1.0.0-alpha14"
+                const val lifecycle = "2.6.0-alpha02"
             }
 
             const val material = "androidx.compose.material:material:${Version.material}"
@@ -83,6 +89,7 @@ object Config {
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Version.constraintLayout}"
             const val paging = "androidx.paging:paging-compose:${Version.paging}"
             const val ui = "androidx.compose.ui:ui:${Version.core}"
+            const val lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:${Version.lifecycle}"
 
         }
 

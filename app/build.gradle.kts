@@ -1,6 +1,11 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id(Config.Plugins.androidApplication)
     id(Config.Plugins.kotlinAndroid)
+    id(Config.Plugins.kotlinKapt)
+    id(Config.Plugins.daggerHilt)
 }
 
 android {
@@ -22,9 +27,18 @@ android {
 
     buildTypes {
         getByName("debug") {
-
+            buildConfigField(
+                type = "String",
+                name = "APP_CENTER_KEY",
+                value = getProps("APP_CENTER_KEY")
+            )
         }
         getByName("release") {
+            buildConfigField(
+                type = "String",
+                name = "APP_CENTER_KEY",
+                value = getProps("APP_CENTER_KEY")
+            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -43,7 +57,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = Config.Dependencies.Compose.Version.core
     }
     packagingOptions {
         resources {
@@ -53,22 +67,20 @@ android {
 }
 
 dependencies {
-    implementation(Config.Dependencies.Jetpack.coreKtx)
-    implementation(Config.Dependencies.Jetpack.lifecycleRuntime)
-    implementation(Config.Dependencies.Jetpack.lifecycleViewModel)
-    implementation(Config.Dependencies.Compose.activity)
-    implementation(Config.Dependencies.Compose.ui)
-    implementation(Config.Dependencies.Compose.material3)
-    implementation(Config.Dependencies.Compose.material)
-    implementation(Config.Dependencies.Compose.preview)
-    implementation(Config.Dependencies.Compose.constraintLayout)
-    implementation(Config.Dependencies.Compose.navigation)
-    implementation(Config.Dependencies.Compose.paging)
+    implementation(project(":presentation"))
+    /** Dagger */
+    implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
+    kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
+    kapt(Config.Dependencies.DaggerHilt.androidXHiltCompiler)
+}
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.1.1")
+fun getProps(propName: String): String {
+    val propsFile = rootProject.file("local.properties")
+    return if (propsFile.exists()) {
+        val props = Properties()
+        props.load(FileInputStream(propsFile))
+        props[propName] as String
+    } else {
+        ""
+    }
 }

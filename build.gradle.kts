@@ -4,6 +4,7 @@ buildscript {
         classpath(Config.Dependencies.ClassPath.jacoco)
     }
 }
+
 plugins {
     id(Config.Plugins.androidApplication) version Config.Plugins.Version.androidApplication apply false
     id(Config.Plugins.androidLibrary) version Config.Plugins.Version.androidApplication apply false

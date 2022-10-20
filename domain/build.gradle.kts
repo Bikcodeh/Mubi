@@ -1,12 +1,22 @@
 plugins {
-    id(Config.Plugins.androidApplication)
+    id(Config.Plugins.androidLibrary)
     id(Config.Plugins.kotlinAndroid)
     id(Config.Plugins.kotlinKapt)
+    id(Config.Plugins.daggerHilt)
+    id(Config.Plugins.jacoco)
 }
 
 android {
     namespace = "com.bikcodeh.mubi.domain"
     compileSdk = Config.AndroidSdk.compile
+    defaultConfig {
+        minSdk = Config.AndroidSdk.minSdk
+        targetSdk = Config.AndroidSdk.target
+    }
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
