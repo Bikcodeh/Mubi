@@ -17,5 +17,6 @@ data class TvShowEntity(
     val posterPath: String,
     val voteAverage: Double,
     val voteCount: Int,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val category: String
 )

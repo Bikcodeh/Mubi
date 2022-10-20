@@ -14,5 +14,6 @@ data class TVShow(
     val posterPath: String,
     val voteAverage: Double,
     val voteCount: Int,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    val category: String
 )

@@ -22,7 +22,8 @@ class TvShowMapperEntity : Mapper<TvShowEntity, TVShow> {
                 posterPath,
                 voteAverage,
                 voteCount,
-                isFavorite
+                isFavorite,
+                category
             )
         }
     }

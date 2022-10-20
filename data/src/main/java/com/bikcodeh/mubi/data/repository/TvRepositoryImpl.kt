@@ -4,6 +4,7 @@ import com.bikcodeh.mubi.data.remote.service.TVApi
 import com.bikcodeh.mubi.domain.common.Result
 import com.bikcodeh.mubi.domain.common.fold
 import com.bikcodeh.mubi.domain.common.makeSafeRequest
+import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
 import com.bikcodeh.mubi.domain.repository.TvRepository
 import javax.inject.Inject
