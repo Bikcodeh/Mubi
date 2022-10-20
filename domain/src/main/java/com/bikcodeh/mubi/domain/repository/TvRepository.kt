@@ -1,7 +1,6 @@
 package com.bikcodeh.mubi.domain.repository
 
 import com.bikcodeh.mubi.domain.common.Result
-import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
 
 interface TvRepository {

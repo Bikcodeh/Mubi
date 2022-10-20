@@ -1,6 +1,9 @@
-package com.bikcodeh.mubi.domain.model
+package com.bikcodeh.mubi.data.local.entity
 
-data class TVShow(
+import androidx.room.Entity
+
+@Entity(tableName = "tvshow")
+data class TvShowEntity(
     val backdropPath: String,
     val firstAirDate: String,
     val genreIds: List<Int>,
@@ -14,5 +17,5 @@ data class TVShow(
     val posterPath: String,
     val voteAverage: Double,
     val voteCount: Int,
-    var isFavorite: Boolean = false
+    val isFavorite: Boolean
 )
