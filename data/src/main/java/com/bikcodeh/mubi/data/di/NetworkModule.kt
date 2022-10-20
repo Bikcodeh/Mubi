@@ -1,6 +1,7 @@
 package com.bikcodeh.mubi.data.di
 
 import com.bikcodeh.mubi.data.BuildConfig
+import com.bikcodeh.mubi.data.remote.interceptor.ApiKeyInterceptor
 import com.bikcodeh.mubi.data.remote.service.TVApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -29,6 +30,7 @@ object NetworkModule {
             writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             retryOnConnectionFailure(true)
             addInterceptor(loggingInterceptorProvider())
+            addInterceptor(ApiKeyInterceptor())
         }.build()
 
     private fun loggingInterceptorProvider(): HttpLoggingInterceptor {
@@ -61,3 +63,4 @@ private const val BASE_URL = "https://api.themoviedb.org/3/tv/"
 private const val CONNECT_TIMEOUT = 15L
 private const val WRITE_TIMEOUT = 15L
 private const val READ_TIMEOUT = 15L
+const val DB_API = "4662e7a7fe13c9d91c80552e10a09dc1"

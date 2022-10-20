@@ -69,6 +69,8 @@ android {
 
 dependencies {
     implementation(project(":presentation"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
