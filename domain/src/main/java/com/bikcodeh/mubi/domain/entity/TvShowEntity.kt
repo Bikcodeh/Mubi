@@ -1,4 +1,4 @@
-package com.bikcodeh.mubi.data.local.entity
+package com.bikcodeh.mubi.domain.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

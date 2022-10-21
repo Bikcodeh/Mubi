@@ -21,3 +21,8 @@ inline fun <R, T> Result<T>.fold(
     is Result.Error -> onError(code, message)
     is Result.Exception -> onException(exception)
 }
+
+fun <T> Result<T>.getSuccess() = when (this) {
+    is Result.Success -> data
+    else -> null
+}
