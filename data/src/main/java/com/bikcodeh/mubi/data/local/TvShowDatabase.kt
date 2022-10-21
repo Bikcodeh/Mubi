@@ -4,8 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.bikcodeh.mubi.data.local.dao.RemoteKeysDao
 import com.bikcodeh.mubi.data.local.dao.TvShowDao
-import com.bikcodeh.mubi.data.local.entity.RemoteKeysEntity
-import com.bikcodeh.mubi.data.local.entity.TvShowEntity
+import com.bikcodeh.mubi.domain.entity.RemoteKeysEntity
+import com.bikcodeh.mubi.domain.entity.TvShowEntity
 
 @Database(
     entities = [

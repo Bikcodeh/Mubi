@@ -1,10 +1,11 @@
 package com.bikcodeh.mubi.data.mappers
 
-import com.bikcodeh.mubi.data.local.entity.TvShowEntity
 import com.bikcodeh.mubi.domain.common.Mapper
+import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import com.bikcodeh.mubi.domain.model.TVShow
+import javax.inject.Inject
 
-class TvShowMapperEntity : Mapper<TvShowEntity, TVShow> {
+class TvShowMapperEntity @Inject constructor() : Mapper<TvShowEntity, TVShow> {
 
     override fun map(input: TvShowEntity): TVShow {
         return with(input) {

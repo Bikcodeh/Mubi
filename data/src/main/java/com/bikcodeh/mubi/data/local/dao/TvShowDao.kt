@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.bikcodeh.mubi.data.local.entity.TvShowEntity
+import com.bikcodeh.mubi.domain.entity.TvShowEntity
 
 @Dao
 interface TvShowDao {
@@ -17,5 +17,8 @@ interface TvShowDao {
     fun getTvShows(category: String): PagingSource<Int, TvShowEntity>
 
     @Query("UPDATE tvshow SET isFavorite = :isFavorite WHERE id = :tvShowId")
-    suspend fun setIsFavorite(tvShowId: Int ,isFavorite: Boolean)
+    suspend fun setIsFavorite(tvShowId: Int, isFavorite: Boolean)
+
+    @Query("DELETE FROM tvshow")
+    suspend fun clear()
 }

@@ -21,6 +21,8 @@ kapt {
 
 dependencies {
     implementation(Config.Dependencies.Jetpack.coreKtx)
+    implementation(Config.Dependencies.Jetpack.paging)
+    implementation(Config.Dependencies.Jetpack.room)
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
