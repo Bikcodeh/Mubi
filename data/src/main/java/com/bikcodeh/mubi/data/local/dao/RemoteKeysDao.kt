@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.bikcodeh.mubi.data.local.entity.RemoteKeysEntity
+import com.bikcodeh.mubi.domain.entity.RemoteKeysEntity
 
 @Dao
 interface RemoteKeysDao {
