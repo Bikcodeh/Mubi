@@ -17,7 +17,7 @@ import com.bikcodeh.mubi.domain.model.TvShowType
 import retrofit2.HttpException
 import java.io.IOException
 
-@OptIn(ExperimentalPagingApi::class)
+@ExperimentalPagingApi
 class TvShowRemoteMediator(
     private val tvShowDatabase: TvShowDatabase,
     private val tvApi: TVApi,
