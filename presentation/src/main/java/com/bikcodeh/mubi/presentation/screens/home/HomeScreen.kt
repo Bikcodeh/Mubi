@@ -1,56 +1,63 @@
 package com.bikcodeh.mubi.presentation.screens.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material.icons.outlined.StarHalf
-import androidx.compose.material.icons.outlined.StarOutline
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.bikcodeh.mubi.domain.entity.TvShowEntity
-import timber.log.Timber
-import java.lang.Math.ceil
-import java.lang.Math.floor
+import com.bikcodeh.mubi.domain.model.TVShow
+import com.bikcodeh.mubi.presentation.components.LoadingScreen
+import com.bikcodeh.mubi.presentation.screens.home.components.HomeTopBar
+import com.bikcodeh.mubi.presentation.theme.backgroundColor
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onClickItem: (tvShow: TVShow) -> Unit
+) {
 
     val tvShows = homeViewModel.tvShows.collectAsLazyPagingItems()
-
     val result = handlePagingResult(tvShows = tvShows)
+    var isLoading by remember { mutableStateOf(false) }
+    isLoading = tvShows.loadState.append is LoadState.Loading
+
+    if (tvShows.loadState.refresh is LoadState.Loading) {
+        LoadingScreen(modifier = Modifier.fillMaxSize())
+    }
 
     if (result) {
-        Timber.d("BIEN VAMOS BIEN")
+
     } else {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(tvShows.itemCount) { index ->
-                TvItem(tvShows[index]?.name ?: "data")
+        Scaffold(
+            topBar = {
+                HomeTopBar(onSearchClick = {}, onProfileClick = {})
             }
+        ) { paddingValues ->
+            HomeContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = paddingValues.calculateTopPadding())
+                    .background(MaterialTheme.colorScheme.backgroundColor),
+                tvShows = tvShows,
+                onClickItem = onClickItem,
+                isLoading = isLoading
+            )
         }
     }
 }
 
 @Composable
 fun handlePagingResult(
-    tvShows: LazyPagingItems<TvShowEntity>
+    tvShows: LazyPagingItems<TVShow>
 ): Boolean {
     tvShows.apply {
         val error = when {
@@ -61,33 +68,4 @@ fun handlePagingResult(
         }
         return error != null
     }
-}
-
-@Composable
-fun TvItem(index: String) {
-    Card(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        ),
-        shape = ShapeDefaults.Medium
-    ) {
-        Column() {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    .background(color = Color.Blue)
-            )
-            Text(
-                text = index,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun TvItemPreview() {
-    TvItem("")
 }

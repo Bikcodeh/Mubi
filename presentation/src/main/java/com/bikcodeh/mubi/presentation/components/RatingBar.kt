@@ -59,7 +59,7 @@ fun RatingPreview() {
 @Preview
 @Composable
 fun TenStarsRatingPreview() {
-    RatingBar(stars = 5, rating = 4.5)
+    RatingBar(stars = 5, rating = 8.5)
 }
 
 @Preview

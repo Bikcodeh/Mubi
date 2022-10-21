@@ -3,10 +3,6 @@ package com.bikcodeh.mubi
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
 import com.bikcodeh.mubi.domain.usecase.GetTvShowsUC
 import com.bikcodeh.mubi.presentation.screens.home.HomeScreen
 import com.bikcodeh.mubi.presentation.theme.MubiTheme
@@ -23,12 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MubiTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    HomeScreen()
-                }
+                HomeScreen(onClickItem = {})
             }
         }
     }

@@ -15,8 +15,16 @@ import com.bikcodeh.mubi.presentation.R
 fun CoilImage(
     modifier: Modifier = Modifier,
     imageUrl: String,
-    @StringRes imageDescriptionResId: Int
+    @StringRes imageDescriptionResId: Int?,
+    imageDescription: String?,
+    contentScale: ContentScale = ContentScale.Fit
 ) {
+    val description = imageDescriptionResId?.let {
+        stringResource(it)
+    } ?: run {
+        imageDescription
+    }
+
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageUrl)
@@ -24,8 +32,8 @@ fun CoilImage(
             .build(),
         placeholder = painterResource(R.drawable.ic_image),
         error = painterResource(R.drawable.ic_broken_image),
-        contentDescription = stringResource(imageDescriptionResId),
-        contentScale = ContentScale.Fit,
+        contentDescription = description,
+        contentScale = contentScale,
         modifier = modifier
     )
 }
