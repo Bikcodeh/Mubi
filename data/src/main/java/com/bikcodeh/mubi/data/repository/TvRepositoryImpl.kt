@@ -45,6 +45,6 @@ class TvRepositoryImpl @Inject constructor(
     }
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 8
+        const val NETWORK_PAGE_SIZE = 3
     }
 }

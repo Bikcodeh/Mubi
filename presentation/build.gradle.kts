@@ -34,6 +34,7 @@ dependencies {
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
     kapt(Config.Dependencies.DaggerHilt.androidXHiltCompiler)
+    implementation(Config.Dependencies.DaggerHilt.hiltNavigation)
     /** Lifecycle */
     implementation(Config.Dependencies.Jetpack.lifecycleRuntime)
     implementation(Config.Dependencies.Jetpack.lifecycleViewModel)
@@ -42,6 +43,8 @@ dependencies {
     implementation(Config.Dependencies.Compose.navigation)
     implementation(Config.Dependencies.Compose.constraintLayout)
     implementation(Config.Dependencies.Compose.lifecycle)
+    implementation(Config.Dependencies.Compose.paging)
+    debugImplementation(Config.Dependencies.Compose.uiTooling)
     api(Config.Dependencies.Compose.material3)
     api(Config.Dependencies.Compose.preview)
     api(Config.Dependencies.Compose.activity)

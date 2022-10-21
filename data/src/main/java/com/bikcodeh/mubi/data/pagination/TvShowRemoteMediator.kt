@@ -6,11 +6,11 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.bikcodeh.mubi.data.local.TvShowDatabase
-import com.bikcodeh.mubi.domain.entity.RemoteKeysEntity
 import com.bikcodeh.mubi.data.mappers.TvShowMapper
 import com.bikcodeh.mubi.data.remote.service.TVApi
 import com.bikcodeh.mubi.domain.common.getSuccess
 import com.bikcodeh.mubi.domain.common.makeSafeRequest
+import com.bikcodeh.mubi.domain.entity.RemoteKeysEntity
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
@@ -28,7 +28,16 @@ class TvShowRemoteMediator(
     private val tvShowDao = tvShowDatabase.tvShowDao()
     private val remoteKeysDao = tvShowDatabase.remoteKeysDao()
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, TvShowEntity>): MediatorResult {
+
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, TvShowEntity>
+    ): MediatorResult {
+
         val page = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -37,17 +46,13 @@ class TvShowRemoteMediator(
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeysForFirstItem(state)
                 val prevKey = remoteKeys?.prevKey
-                if (prevKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 prevKey
             }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeysForLastItem(state)
                 val nextKey = remoteKeys?.nextKey
-                if (nextKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
                 nextKey
             }
         }
@@ -63,9 +68,10 @@ class TvShowRemoteMediator(
             val data = makeSafeRequest { request }.getSuccess()
             val tvShows = mutableListOf<TVShow>()
             data?.let {
-                tvShows.addAll(it.results.map { tvShowDTO -> tvShowDTO.toDomain() })
+                tvShows.clear()
+                tvShows.addAll(it.results.map { tvShowDTO -> tvShowDTO.toDomain(tvShowType.name) })
             }
-            val endOfPagination = tvShows.isEmpty()
+            val endOfPagination = data?.page == data?.totalPages
 
             tvShowDatabase.withTransaction {
                 // Initial load of data
@@ -78,7 +84,7 @@ class TvShowRemoteMediator(
                 val nextKey = if (endOfPagination) null else page + 1
                 val keys = tvShows.map {
                     RemoteKeysEntity(
-                        characterId = it.id,
+                        tvShowId = it.id,
                         prevKey = prevKey,
                         nextKey = nextKey
                     )

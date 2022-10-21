@@ -90,6 +90,7 @@ object Config {
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Version.constraintLayout}"
             const val paging = "androidx.paging:paging-compose:${Version.paging}"
             const val ui = "androidx.compose.ui:ui:${Version.core}"
+            const val uiTooling = "androidx.compose.ui:ui-tooling:${Version.core}"
             const val lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:${Version.lifecycle}"
 
         }

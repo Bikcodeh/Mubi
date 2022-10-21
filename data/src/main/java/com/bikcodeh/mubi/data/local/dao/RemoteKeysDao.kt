@@ -12,8 +12,8 @@ interface RemoteKeysDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(remoteKey: List<RemoteKeysEntity>)
 
-    @Query("SELECT * FROM remote_keys WHERE characterId = :characterId")
-    suspend fun remoteKeysTvShowId(characterId: Int): RemoteKeysEntity?
+    @Query("SELECT * FROM remote_keys WHERE tvShowId = :tvShowId ORDER BY id ASC")
+    suspend fun remoteKeysTvShowId(tvShowId: String): RemoteKeysEntity?
 
     @Query("DELETE FROM remote_keys")
     suspend fun clearRemoteKeys()
