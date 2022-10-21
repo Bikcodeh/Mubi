@@ -5,10 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ShapeDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.icons.outlined.StarHalf
+import androidx.compose.material.icons.outlined.StarOutline
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,9 +19,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import timber.log.Timber
+import java.lang.Math.ceil
+import java.lang.Math.floor
 
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
@@ -32,18 +34,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
     if (result) {
         Timber.d("BIEN VAMOS BIEN")
     } else {
-        Timber.d("DATA ${tvShows.itemCount}")
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(
-                items = tvShows,
-                key = { tvShow -> tvShow.id}
-            ) { value: TvShowEntity? ->
-                value?.let {
-                    TvItem(it.name)
-                }
-            }
-        }
-        /*LazyVerticalGrid(
+        LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(8.dp),
@@ -51,9 +42,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(tvShows.itemCount) { index ->
-                TvItem(index)
+                TvItem(tvShows[index]?.name ?: "data")
             }
-        }*/
+        }
     }
 }
 
