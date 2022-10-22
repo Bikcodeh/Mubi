@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -20,8 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.paging.compose.LazyPagingItems
 import com.bikcodeh.mubi.domain.model.TVShow
+import com.bikcodeh.mubi.domain.model.TvShowType
+import com.bikcodeh.mubi.domain.model.getTvShowType
 import com.bikcodeh.mubi.presentation.R
 import com.bikcodeh.mubi.presentation.components.CoilImage
+import com.bikcodeh.mubi.presentation.components.MubiChips
 import com.bikcodeh.mubi.presentation.components.RatingBar
 import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults.COLUMNS_ITEM
 import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults.PADDING_ITEM
@@ -40,7 +45,17 @@ fun HomeContent(
     onClickItem: (tvShow: TVShow) -> Unit,
     errorState: ErrorLoadState
 ) {
+    val selectedCTvShowType = rememberSaveable { mutableStateOf(TvShowType.TOP_RATED) }
+
     Column(modifier = modifier) {
+        MubiChips(
+            onSelectionChange = { tvShowTypeName ->
+                getTvShowType(tvShowTypeName)?.let { tvShowType ->
+                    selectedCTvShowType.value = tvShowType
+                }
+            },
+            selectedCTvShowType = selectedCTvShowType.value
+        )
         LazyVerticalGrid(
             columns = GridCells.Fixed(COLUMNS_ITEM),
             contentPadding = PaddingValues(PADDING_ITEM),

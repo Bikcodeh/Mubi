@@ -24,6 +24,7 @@ val OldLavender = Color(0xFF6B6B83)
 val GraniteGray = Color(0xFF656565)
 val CharlestonGreen = Color(0xFF2A2A2A)
 val ChineseBlack = Color(0xFF121212)
+val Gray = Color(0xFFD5D8DB)
 
 val ColorScheme.backgroundColor
     @Composable

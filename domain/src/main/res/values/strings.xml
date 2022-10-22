@@ -11,4 +11,8 @@
     <string name="try_again">Try again</string>
     <string name="connectivity_error">An error occurred while your request was executing.</string>
     <string name="internet_error">Please check your internet connection and try again.</string>
+    <string name="tv_show_popular">Popular</string>
+    <string name="tv_show_top_rated">Top Rated</string>
+    <string name="tv_show_on_tv">On Tv</string>
+    <string name="tv_show_airing_today">Airing Today</string>
 </resources>
