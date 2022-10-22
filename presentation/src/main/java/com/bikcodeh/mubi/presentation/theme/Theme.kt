@@ -59,10 +59,9 @@ fun MubiTheme(
             ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }
-
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = MubiTypography,
         content = content
     )
 }

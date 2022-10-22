@@ -20,6 +20,7 @@ import com.bikcodeh.mubi.presentation.components.LoadingScreen
 import com.bikcodeh.mubi.presentation.components.handleError
 import com.bikcodeh.mubi.presentation.screens.home.components.HomeTopBar
 import com.bikcodeh.mubi.presentation.theme.backgroundColor
+import com.bikcodeh.mubi.presentation.util.ErrorLoadState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,23 +30,23 @@ fun HomeScreen(
 ) {
     val tvShows = homeViewModel.tvShows.collectAsLazyPagingItems()
     val result = handlePagingResult(tvShows = tvShows)
-    var isLoading by remember { mutableStateOf(false) }
-    isLoading = tvShows.loadState.append is LoadState.Loading
 
     Scaffold(
         topBar = {
             HomeTopBar(onSearchClick = {}, onProfileClick = {})
         }
     ) { paddingValues ->
-        if (tvShows.loadState.refresh is LoadState.Loading) {
-            LoadingScreen(modifier = Modifier.fillMaxSize())
-        } else {
-            result?.let {
+        if (result.isRefresh) {
+            result.error?.let {
                 ErrorScreen(
                     messageId = handleError(error = it),
                     modifier = Modifier.fillMaxSize()
                 )
-            } ?: run {
+            }
+        } else {
+            if (tvShows.loadState.refresh is LoadState.Loading) {
+                LoadingScreen(modifier = Modifier.fillMaxSize())
+            } else {
                 HomeContent(
                     modifier = Modifier
                         .fillMaxSize()
@@ -53,7 +54,7 @@ fun HomeScreen(
                         .background(MaterialTheme.colorScheme.backgroundColor),
                     tvShows = tvShows,
                     onClickItem = onClickItem,
-                    isLoading = isLoading
+                    errorState = result
                 )
             }
         }
@@ -63,14 +64,23 @@ fun HomeScreen(
 @Composable
 fun handlePagingResult(
     tvShows: LazyPagingItems<TVShow>
-): Error? {
+): ErrorLoadState {
+    val errorLoadState = ErrorLoadState()
     tvShows.apply {
-        val loadStateError = when {
-            loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+        val stateError = when {
+            loadState.refresh is LoadState.Error -> {
+                errorLoadState.isRefresh = true
+                loadState.refresh as LoadState.Error
+            }
             loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-            loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+            loadState.append is LoadState.Error -> {
+                errorLoadState.isAppend = true
+                loadState.append as LoadState.Error
+            }
             else -> null
         }
-        return loadStateError?.error?.toError()
+        val error = stateError?.error?.toError()
+        errorLoadState.error = error
+        return errorLoadState
     }
 }

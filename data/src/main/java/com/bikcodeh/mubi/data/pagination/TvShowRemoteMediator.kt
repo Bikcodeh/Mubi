@@ -7,6 +7,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.bikcodeh.mubi.data.local.TvShowDatabase
 import com.bikcodeh.mubi.data.mappers.TvShowMapper
+import com.bikcodeh.mubi.data.remote.response.TVResponseDTO
 import com.bikcodeh.mubi.data.remote.service.TVApi
 import com.bikcodeh.mubi.domain.common.getSuccess
 import com.bikcodeh.mubi.domain.common.makeSafeRequest
@@ -17,6 +18,7 @@ import com.bikcodeh.mubi.domain.model.TvShowType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
 
 @ExperimentalPagingApi
@@ -32,7 +34,7 @@ class TvShowRemoteMediator(
 
 
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        return InitializeAction.SKIP_INITIAL_REFRESH
     }
 
     override suspend fun load(
@@ -61,13 +63,13 @@ class TvShowRemoteMediator(
 
         try {
             val request = when (tvShowType) {
-                TvShowType.POPULAR -> withContext(Dispatchers.Default) { tvApi.getPopularTvShows(page) }
-                TvShowType.TOP_RATED -> withContext(Dispatchers.Default) { tvApi.getTopRatedTvShows(page) }
-                TvShowType.ON_TV -> withContext(Dispatchers.Default) { tvApi.getOnTheAirTvShows(page) }
-                TvShowType.AIRING_TODAY ->  withContext(Dispatchers.Default) { tvApi.getAiringTodayTvShows(page) }
+                TvShowType.POPULAR -> handleRequest { tvApi.getPopularTvShows(page) }
+                TvShowType.TOP_RATED -> handleRequest { tvApi.getTopRatedTvShows(page) }
+                TvShowType.ON_TV -> handleRequest { tvApi.getOnTheAirTvShows(page) }
+                TvShowType.AIRING_TODAY -> handleRequest { tvApi.getAiringTodayTvShows(page) }
             }
 
-            val data = withContext(Dispatchers.Default) {
+            val data = withContext(Dispatchers.IO) {
                 makeSafeRequest { request }.getSuccess()
             }
             val tvShowsData = mutableListOf<TVShow>()
@@ -104,6 +106,12 @@ class TvShowRemoteMediator(
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
             return MediatorResult.Error(exception)
+        }
+    }
+
+    private suspend fun handleRequest(request: suspend () -> Response<TVResponseDTO>): Response<TVResponseDTO> {
+        return withContext(Dispatchers.IO) {
+            request()
         }
     }
 
