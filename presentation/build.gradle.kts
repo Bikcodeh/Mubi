@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(Config.Dependencies.Jetpack.coreKtx)
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)

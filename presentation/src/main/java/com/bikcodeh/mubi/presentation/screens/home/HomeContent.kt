@@ -16,8 +16,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.paging.compose.LazyPagingItems
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.presentation.components.CoilImage
-import com.bikcodeh.mubi.presentation.components.LoadingScreen
 import com.bikcodeh.mubi.presentation.components.RatingBar
+import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults.COLUMNS_ITEM
+import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults.PADDING_ITEM
+import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults.SPACING_ITEM
 import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults.THUMBNAIL_HEIGHT
 import com.bikcodeh.mubi.presentation.theme.COMMON_PADDING
 import com.bikcodeh.mubi.presentation.theme.FONT_NORMAL
@@ -34,33 +36,24 @@ fun HomeContent(
     onClickItem: (tvShow: TVShow) -> Unit,
     isLoading: Boolean
 ) {
-    Column() {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = modifier,
-            contentPadding = PaddingValues(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(
-                items = tvShows,
-                key = { tvShow -> tvShow.id }
 
-            ) { tvShow: TVShow? ->
-                tvShow?.let {
-                    TvItem(it, onClickItem = onClickItem)
-                }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(COLUMNS_ITEM),
+        modifier = modifier,
+        contentPadding = PaddingValues(PADDING_ITEM),
+        horizontalArrangement = Arrangement.spacedBy(SPACING_ITEM),
+        verticalArrangement = Arrangement.spacedBy(SPACING_ITEM)
+    ) {
+        items(
+            items = tvShows,
+            key = { tvShow -> tvShow.name }
+
+        ) { tvShow: TVShow? ->
+            tvShow?.let {
+                TvItem(it, onClickItem = onClickItem)
             }
         }
-        if (isLoading) {
-            LoadingScreen(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
-            )
-        }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

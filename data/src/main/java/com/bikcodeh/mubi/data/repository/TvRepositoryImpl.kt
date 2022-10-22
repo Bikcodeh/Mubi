@@ -31,7 +31,7 @@ class TvRepositoryImpl @Inject constructor(
         return Pager(
             PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
+                maxSize = NETWORK_MAX_SIZE
             ),
             null,
             TvShowRemoteMediator(
@@ -45,6 +45,7 @@ class TvRepositoryImpl @Inject constructor(
     }
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 3
+        const val NETWORK_PAGE_SIZE = 10
+        const val NETWORK_MAX_SIZE = 120
     }
 }

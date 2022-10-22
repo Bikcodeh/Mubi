@@ -14,6 +14,8 @@ import com.bikcodeh.mubi.domain.entity.RemoteKeysEntity
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -59,19 +61,22 @@ class TvShowRemoteMediator(
 
         try {
             val request = when (tvShowType) {
-                TvShowType.POPULAR -> tvApi.getPopularTvShows(page)
-                TvShowType.TOP_RATED -> tvApi.getTopRatedTvShows(page)
-                TvShowType.ON_TV -> tvApi.getOnTheAirTvShows(page)
-                TvShowType.AIRING_TODAY -> tvApi.getAiringTodayTvShows(page)
+                TvShowType.POPULAR -> withContext(Dispatchers.Default) { tvApi.getPopularTvShows(page) }
+                TvShowType.TOP_RATED -> withContext(Dispatchers.Default) { tvApi.getTopRatedTvShows(page) }
+                TvShowType.ON_TV -> withContext(Dispatchers.Default) { tvApi.getOnTheAirTvShows(page) }
+                TvShowType.AIRING_TODAY ->  withContext(Dispatchers.Default) { tvApi.getAiringTodayTvShows(page) }
             }
 
-            val data = makeSafeRequest { request }.getSuccess()
-            val tvShows = mutableListOf<TVShow>()
-            data?.let {
-                tvShows.clear()
-                tvShows.addAll(it.results.map { tvShowDTO -> tvShowDTO.toDomain(tvShowType.name) })
+            val data = withContext(Dispatchers.Default) {
+                makeSafeRequest { request }.getSuccess()
             }
-            val endOfPagination = data?.page == data?.totalPages
+            val tvShowsData = mutableListOf<TVShow>()
+            data?.let {
+                val tvShows = it.results.map { tvShowDTO -> tvShowDTO.toDomain(tvShowType.name) }
+                tvShowsData.clear()
+                tvShowsData.addAll(tvShows)
+            }
+            val endOfPagination = data?.totalPages == page
 
             tvShowDatabase.withTransaction {
                 // Initial load of data
@@ -80,17 +85,19 @@ class TvShowRemoteMediator(
                     tvShowDao.clear()
                 }
 
-                val prevKey = if (page == TV_SHOW_STARTING_PAGE_INDEX) null else page - 1
-                val nextKey = if (endOfPagination) null else page + 1
-                val keys = tvShows.map {
+                val prevKey =
+                    if (page == TV_SHOW_STARTING_PAGE_INDEX) null else page.minus(1)
+                val nextKey = if (endOfPagination) null else page.plus(1)
+                val tvShowsEntity = tvShowsData.map { tvShow -> tvShowMapper.map(tvShow) }
+                val keys = tvShowsEntity.map {
                     RemoteKeysEntity(
                         tvShowId = it.id,
                         prevKey = prevKey,
                         nextKey = nextKey
                     )
                 }
+                tvShowDao.addTvShows(tvShowsEntity)
                 remoteKeysDao.insertAll(keys)
-                tvShowDao.addTvShows(tvShows.map { tvShow -> tvShowMapper.map(tvShow) })
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPagination)
         } catch (exception: IOException) {

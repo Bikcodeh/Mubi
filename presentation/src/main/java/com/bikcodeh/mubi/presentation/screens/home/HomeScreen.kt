@@ -1,7 +1,6 @@
 package com.bikcodeh.mubi.presentation.screens.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,8 +12,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.bikcodeh.mubi.domain.common.Error
+import com.bikcodeh.mubi.domain.common.toError
 import com.bikcodeh.mubi.domain.model.TVShow
+import com.bikcodeh.mubi.presentation.components.ErrorScreen
 import com.bikcodeh.mubi.presentation.components.LoadingScreen
+import com.bikcodeh.mubi.presentation.components.handleError
 import com.bikcodeh.mubi.presentation.screens.home.components.HomeTopBar
 import com.bikcodeh.mubi.presentation.theme.backgroundColor
 
@@ -24,33 +27,35 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     onClickItem: (tvShow: TVShow) -> Unit
 ) {
-
     val tvShows = homeViewModel.tvShows.collectAsLazyPagingItems()
     val result = handlePagingResult(tvShows = tvShows)
     var isLoading by remember { mutableStateOf(false) }
     isLoading = tvShows.loadState.append is LoadState.Loading
 
-    if (tvShows.loadState.refresh is LoadState.Loading) {
-        LoadingScreen(modifier = Modifier.fillMaxSize())
-    }
-
-    if (result) {
-
-    } else {
-        Scaffold(
-            topBar = {
-                HomeTopBar(onSearchClick = {}, onProfileClick = {})
+    Scaffold(
+        topBar = {
+            HomeTopBar(onSearchClick = {}, onProfileClick = {})
+        }
+    ) { paddingValues ->
+        if (tvShows.loadState.refresh is LoadState.Loading) {
+            LoadingScreen(modifier = Modifier.fillMaxSize())
+        } else {
+            result?.let {
+                ErrorScreen(
+                    messageId = handleError(error = it),
+                    modifier = Modifier.fillMaxSize()
+                )
+            } ?: run {
+                HomeContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = paddingValues.calculateTopPadding())
+                        .background(MaterialTheme.colorScheme.backgroundColor),
+                    tvShows = tvShows,
+                    onClickItem = onClickItem,
+                    isLoading = isLoading
+                )
             }
-        ) { paddingValues ->
-            HomeContent(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = paddingValues.calculateTopPadding())
-                    .background(MaterialTheme.colorScheme.backgroundColor),
-                tvShows = tvShows,
-                onClickItem = onClickItem,
-                isLoading = isLoading
-            )
         }
     }
 }
@@ -58,14 +63,14 @@ fun HomeScreen(
 @Composable
 fun handlePagingResult(
     tvShows: LazyPagingItems<TVShow>
-): Boolean {
+): Error? {
     tvShows.apply {
-        val error = when {
+        val loadStateError = when {
             loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
             loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
             loadState.append is LoadState.Error -> loadState.append as LoadState.Error
             else -> null
         }
-        return error != null
+        return loadStateError?.error?.toError()
     }
 }
