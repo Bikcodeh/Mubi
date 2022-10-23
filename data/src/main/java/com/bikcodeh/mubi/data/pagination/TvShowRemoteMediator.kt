@@ -34,7 +34,14 @@ class TvShowRemoteMediator(
 
 
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.SKIP_INITIAL_REFRESH
+        val existData = withContext(Dispatchers.IO) {
+            tvShowDao.existData(tvShowType.tvName)
+        }
+        return if (existData > 0) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
     }
 
     override suspend fun load(
@@ -74,7 +81,7 @@ class TvShowRemoteMediator(
             }
             val tvShowsData = mutableListOf<TVShow>()
             data?.let {
-                val tvShows = it.results.map { tvShowDTO -> tvShowDTO.toDomain(tvShowType.name) }
+                val tvShows = it.results.map { tvShowDTO -> tvShowDTO.toDomain(tvShowType.tvName) }
                 tvShowsData.clear()
                 tvShowsData.addAll(tvShows)
             }
@@ -83,8 +90,8 @@ class TvShowRemoteMediator(
             tvShowDatabase.withTransaction {
                 // Initial load of data
                 if (loadType == LoadType.REFRESH) {
-                    remoteKeysDao.clearRemoteKeys()
-                    tvShowDao.clear()
+                    remoteKeysDao.clearRemoteKeys(tvShowType.tvName)
+                    tvShowDao.clear(tvShowType.tvName)
                 }
 
                 val prevKey =
@@ -95,7 +102,8 @@ class TvShowRemoteMediator(
                     RemoteKeysEntity(
                         tvShowId = it.id,
                         prevKey = prevKey,
-                        nextKey = nextKey
+                        nextKey = nextKey,
+                        category = it.category
                     )
                 }
                 tvShowDao.addTvShows(tvShowsEntity)
@@ -120,7 +128,7 @@ class TvShowRemoteMediator(
         // From that last page, get the last item
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { tvShow ->
-                remoteKeysDao.remoteKeysTvShowId(tvShow.id)
+                remoteKeysDao.remoteKeysTvShowId(tvShow.id, tvShow.category)
             }
     }
 
@@ -130,7 +138,7 @@ class TvShowRemoteMediator(
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { tvShow ->
                 // Get the remote keys of the first items retrieved
-                remoteKeysDao.remoteKeysTvShowId(tvShow.id)
+                remoteKeysDao.remoteKeysTvShowId(tvShow.id, tvShow.category)
             }
     }
 
@@ -140,8 +148,8 @@ class TvShowRemoteMediator(
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { repoId ->
-                remoteKeysDao.remoteKeysTvShowId(repoId)
+            state.closestItemToPosition(position)?.let { tvShow ->
+                remoteKeysDao.remoteKeysTvShowId(tvShow.id, tvShow.category)
             }
         }
     }

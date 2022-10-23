@@ -6,15 +6,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.bikcodeh.mubi.domain.common.Error
 import com.bikcodeh.mubi.domain.common.toError
 import com.bikcodeh.mubi.domain.model.TVShow
+import com.bikcodeh.mubi.domain.model.TvShowType
+import com.bikcodeh.mubi.domain.model.getTvShowType
 import com.bikcodeh.mubi.presentation.components.ErrorScreen
 import com.bikcodeh.mubi.presentation.components.LoadingScreen
 import com.bikcodeh.mubi.presentation.components.handleError
@@ -28,7 +33,13 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     onClickItem: (tvShow: TVShow) -> Unit
 ) {
-    val tvShows = homeViewModel.tvShows.collectAsLazyPagingItems()
+    val selectedCTvShowType = rememberSaveable { mutableStateOf<TvShowType>(TvShowType.POPULAR) }
+
+    LaunchedEffect(key1 = selectedCTvShowType.value) {
+        homeViewModel.searchTvShows(tvShowType = selectedCTvShowType.value)
+    }
+
+    val tvShows = homeViewModel.tvShows.collectAsState().value.collectAsLazyPagingItems()
     val result = handlePagingResult(tvShows = tvShows)
 
     Scaffold(
@@ -54,7 +65,13 @@ fun HomeScreen(
                         .background(MaterialTheme.colorScheme.backgroundColor),
                     tvShows = tvShows,
                     onClickItem = onClickItem,
-                    errorState = result
+                    errorState = result,
+                    selectedCTvShowType = selectedCTvShowType.value,
+                    onSelectionChange = { tvShowTypeName ->
+                        getTvShowType(tvShowTypeName)?.let { tvShowType ->
+                            selectedCTvShowType.value = tvShowType
+                        }
+                    }
                 )
             }
         }

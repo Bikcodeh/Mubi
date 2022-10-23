@@ -19,6 +19,9 @@ interface TvShowDao {
     @Query("UPDATE tvshow SET isFavorite = :isFavorite WHERE id = :tvShowId")
     suspend fun setIsFavorite(tvShowId: String, isFavorite: Boolean)
 
-    @Query("DELETE FROM tvshow")
-    suspend fun clear()
+    @Query("DELETE FROM tvshow WHERE category = :category")
+    suspend fun clear(category: String)
+
+    @Query("SELECT COUNT(id) FROM tvshow WHERE category = :category ")
+    suspend fun existData(category: String): Int
 }

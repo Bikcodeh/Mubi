@@ -1,6 +1,7 @@
 package com.bikcodeh.mubi.presentation.screens.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -9,8 +10,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -23,7 +22,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.paging.compose.LazyPagingItems
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
-import com.bikcodeh.mubi.domain.model.getTvShowType
 import com.bikcodeh.mubi.presentation.R
 import com.bikcodeh.mubi.presentation.components.CoilImage
 import com.bikcodeh.mubi.presentation.components.MubiChips
@@ -37,24 +35,21 @@ import com.bikcodeh.mubi.presentation.util.Constants
 import com.bikcodeh.mubi.presentation.util.Constants.MAXIMUM_AVERAGE
 import com.bikcodeh.mubi.presentation.util.ErrorLoadState
 import com.bikcodeh.mubi.presentation.util.extension.items
+import timber.log.Timber
 
 @Composable
 fun HomeContent(
     modifier: Modifier = Modifier,
     tvShows: LazyPagingItems<TVShow>,
     onClickItem: (tvShow: TVShow) -> Unit,
-    errorState: ErrorLoadState
+    errorState: ErrorLoadState,
+    selectedCTvShowType: TvShowType,
+    onSelectionChange: (String) -> Unit
 ) {
-    val selectedCTvShowType = rememberSaveable { mutableStateOf(TvShowType.TOP_RATED) }
-
     Column(modifier = modifier) {
         MubiChips(
-            onSelectionChange = { tvShowTypeName ->
-                getTvShowType(tvShowTypeName)?.let { tvShowType ->
-                    selectedCTvShowType.value = tvShowType
-                }
-            },
-            selectedCTvShowType = selectedCTvShowType.value
+            onSelectionChange = onSelectionChange,
+            selectedCTvShowType = selectedCTvShowType
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(COLUMNS_ITEM),
@@ -65,7 +60,6 @@ fun HomeContent(
             items(
                 items = tvShows,
                 key = { tvShow -> tvShow.name }
-
             ) { tvShow: TVShow? ->
                 tvShow?.let {
                     TvItem(it, onClickItem = onClickItem)
