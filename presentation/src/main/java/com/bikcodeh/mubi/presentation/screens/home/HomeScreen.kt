@@ -21,7 +21,6 @@ import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
 import com.bikcodeh.mubi.domain.model.getTvShowType
 import com.bikcodeh.mubi.presentation.components.ErrorScreen
-import com.bikcodeh.mubi.presentation.components.LoadingScreen
 import com.bikcodeh.mubi.presentation.components.handleError
 import com.bikcodeh.mubi.presentation.screens.home.components.HomeTopBar
 import com.bikcodeh.mubi.presentation.theme.backgroundColor
@@ -55,25 +54,23 @@ fun HomeScreen(
                 )
             }
         } else {
-            if (tvShows.loadState.refresh is LoadState.Loading) {
-                LoadingScreen(modifier = Modifier.fillMaxSize())
-            } else {
-                HomeContent(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = paddingValues.calculateTopPadding())
-                        .background(MaterialTheme.colorScheme.backgroundColor),
-                    tvShows = tvShows,
-                    onClickItem = onClickItem,
-                    errorState = result,
-                    selectedCTvShowType = selectedCTvShowType.value,
-                    onSelectionChange = { tvShowTypeName ->
-                        getTvShowType(tvShowTypeName)?.let { tvShowType ->
-                            selectedCTvShowType.value = tvShowType
-                        }
+
+            HomeContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = paddingValues.calculateTopPadding())
+                    .background(MaterialTheme.colorScheme.backgroundColor),
+                tvShows = tvShows,
+                onClickItem = onClickItem,
+                errorState = result,
+                isLoading = tvShows.loadState.refresh is LoadState.Loading,
+                selectedCTvShowType = selectedCTvShowType.value,
+                onSelectionChange = { tvShowTypeName ->
+                    getTvShowType(tvShowTypeName)?.let { tvShowType ->
+                        selectedCTvShowType.value = tvShowType
                     }
-                )
-            }
+                }
+            )
         }
     }
 }

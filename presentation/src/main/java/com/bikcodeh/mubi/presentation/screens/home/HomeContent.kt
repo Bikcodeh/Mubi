@@ -24,6 +24,7 @@ import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
 import com.bikcodeh.mubi.presentation.R
 import com.bikcodeh.mubi.presentation.components.CoilImage
+import com.bikcodeh.mubi.presentation.components.LoadingScreen
 import com.bikcodeh.mubi.presentation.components.MubiChips
 import com.bikcodeh.mubi.presentation.components.RatingBar
 import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults.COLUMNS_ITEM
@@ -44,36 +45,40 @@ fun HomeContent(
     onClickItem: (tvShow: TVShow) -> Unit,
     errorState: ErrorLoadState,
     selectedCTvShowType: TvShowType,
-    onSelectionChange: (String) -> Unit
+    onSelectionChange: (String) -> Unit,
+    isLoading: Boolean
 ) {
     Column(modifier = modifier) {
         MubiChips(
             onSelectionChange = onSelectionChange,
             selectedCTvShowType = selectedCTvShowType
         )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(COLUMNS_ITEM),
-            contentPadding = PaddingValues(PADDING_ITEM),
-            horizontalArrangement = Arrangement.spacedBy(SPACING_ITEM),
-            verticalArrangement = Arrangement.spacedBy(SPACING_ITEM)
-        ) {
-            items(
-                items = tvShows,
-                key = { tvShow -> tvShow.name }
-            ) { tvShow: TVShow? ->
-                tvShow?.let {
-                    TvItem(it, onClickItem = onClickItem)
+        if (isLoading) {
+            LoadingScreen(modifier = Modifier.fillMaxSize())
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(COLUMNS_ITEM),
+                contentPadding = PaddingValues(PADDING_ITEM),
+                horizontalArrangement = Arrangement.spacedBy(SPACING_ITEM),
+                verticalArrangement = Arrangement.spacedBy(SPACING_ITEM)
+            ) {
+                items(
+                    items = tvShows,
+                    key = { tvShow -> tvShow.name }
+                ) { tvShow: TVShow? ->
+                    tvShow?.let {
+                        TvItem(it, onClickItem = onClickItem)
+                    }
                 }
-            }
-            item(span = { GridItemSpan(2) }) {
-                if (errorState.isAppend) {
-                    ErrorMoreRetry(
-                        onRetry = { tvShows.retry() }
-                    )
+                item(span = { GridItemSpan(2) }) {
+                    if (errorState.isAppend) {
+                        ErrorMoreRetry(
+                            onRetry = { tvShows.retry() }
+                        )
+                    }
                 }
             }
         }
-
     }
 }
 
