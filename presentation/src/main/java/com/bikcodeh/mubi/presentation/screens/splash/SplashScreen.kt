@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bikcodeh.mubi.presentation.R
 import com.bikcodeh.mubi.presentation.theme.BrilliantAzure
 import com.bikcodeh.mubi.presentation.theme.GhostWhite
-import com.bikcodeh.mubi.presentation.theme.PADDING_LOGO_ICON
+import com.bikcodeh.mubi.presentation.theme.PADDING_24
 import com.bikcodeh.mubi.presentation.theme.VeryLightBlue
 import kotlinx.coroutines.delay
 
@@ -43,11 +43,11 @@ fun SplashScreen(navigateToHome: () -> Unit) {
         horizontalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.mubi_logo),
+            painter = painterResource(id = R.drawable.mubi_logo_white_with_ellipse),
             contentDescription = stringResource(
                 id = R.string.mubi_logo_description
             ),
-            modifier = Modifier.padding(end = PADDING_LOGO_ICON)
+            modifier = Modifier.padding(end = PADDING_24)
         )
         Text(
             text = stringResource(id = R.string.mubi_title),
