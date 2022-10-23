@@ -2,8 +2,8 @@ package com.bikcodeh.mubi.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bikcodeh.mubi.data.local.TvShowDatabase
-import com.bikcodeh.mubi.data.local.dao.TvShowDao
+import com.bikcodeh.mubi.data.local.db.TvShowDatabase
+import com.bikcodeh.mubi.data.local.db.dao.TvShowDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

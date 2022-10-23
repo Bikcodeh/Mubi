@@ -40,6 +40,7 @@ dependencies {
     implementation(Config.Dependencies.Jetpack.coreKtx)
     implementation(Config.Dependencies.Jetpack.paging)
     implementation(Config.Dependencies.Jetpack.roomPaging)
+    implementation(Config.Dependencies.dataStore)
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)
