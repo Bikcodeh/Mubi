@@ -1,71 +1,15 @@
 package com.bikcodeh.mubi.presentation.screens.login
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import com.bikcodeh.mubi.presentation.R
-import com.bikcodeh.mubi.presentation.components.MubiActionButton
-import com.bikcodeh.mubi.presentation.theme.*
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun LoginScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.backgroundColor),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.mubi_logo_with_ellipse),
-            contentDescription = stringResource(
-                id = R.string.mubi_logo_description
-            )
-        )
-        Text(
-            text = stringResource(id = R.string.mubi_title),
-            style = MaterialTheme.typography.displayLarge,
-            fontWeight = FontWeight.ExtraBold,
-            color = VeryLightBlue
-        )
-
-        Text(
-            text = stringResource(id = R.string.sign_in),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(PADDING_24),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.textColor
-        )
-        MubiActionButton(
-            onClick = { }, buttonTextResId = R.string.log_in,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = COMMON_PADDING)
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen()
-}
-
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun LoginScreenPreviewDark() {
-    LoginScreen()
+fun LoginScreen(
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    navigateToHome: () -> Unit
+) {
+    LoginContent(
+        onClickLogin = { loginViewModel.saveLogin(isLoggedIn = true) },
+        navigateToHome = navigateToHome
+    )
 }

@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -17,15 +18,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bikcodeh.mubi.presentation.R
+import com.bikcodeh.mubi.presentation.screens.login.LoginViewModel
 import com.bikcodeh.mubi.presentation.theme.BrilliantAzure
 import com.bikcodeh.mubi.presentation.theme.GhostWhite
 import com.bikcodeh.mubi.presentation.theme.PADDING_24
 import com.bikcodeh.mubi.presentation.theme.VeryLightBlue
 import kotlinx.coroutines.delay
 
+@ExperimentalLifecycleComposeApi
 @Composable
-fun SplashScreen(navigateToHome: () -> Unit) {
+fun SplashScreen(
+    navigateToHome: () -> Unit,
+    navigateToLogin: () -> Unit,
+    loginViewModel: LoginViewModel = hiltViewModel()
+) {
+    val isLoggedIn by loginViewModel.isLoggedIn.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = true) {
+        loginViewModel.getIsLoggedIn()
+    }
+
     val gradient = Brush.verticalGradient(
         listOf(
             BrilliantAzure,
@@ -58,13 +74,13 @@ fun SplashScreen(navigateToHome: () -> Unit) {
     }
     LaunchedEffect(key1 = true) {
         delay(800)
-        navigateToHome()
-
+        if (isLoggedIn) navigateToHome() else navigateToLogin()
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Preview(showBackground = true)
 @Composable
 fun SplashScreenPreview() {
-    SplashScreen(navigateToHome = {})
+    SplashScreen(navigateToHome = {}, navigateToLogin = {})
 }
