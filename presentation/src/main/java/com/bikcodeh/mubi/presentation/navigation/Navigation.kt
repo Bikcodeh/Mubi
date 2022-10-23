@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bikcodeh.mubi.presentation.screens.home.HomeScreen
 import com.bikcodeh.mubi.presentation.screens.login.LoginScreen
+import com.bikcodeh.mubi.presentation.screens.profile.ProfileScreen
 import com.bikcodeh.mubi.presentation.screens.splash.SplashScreen
 
 @ExperimentalLifecycleComposeApi
@@ -34,7 +35,11 @@ fun MubiNavigation(
             })
         }
         composable(route = Screens.Home.route) {
-            HomeScreen(onClickItem = {})
+            HomeScreen(
+                onClickItem = {},
+                navigateToProfile = {
+                    navController.navigate(Screens.Profile.route)
+                })
         }
         composable(route = Screens.Login.route) {
             LoginScreen(navigateToHome = {
@@ -45,5 +50,23 @@ fun MubiNavigation(
                 }
             })
         }
+        composable(route = Screens.Profile.route) {
+            ProfileScreen(
+                onLogOut = {
+                    navController.navigate(Screens.Login.route) {
+                        popUpTo(0)
+                    }
+                },
+                onBack = {
+                    navController.popBackStack()
+                })
+        }
     }
+}
+
+fun NavHostController.navigateAndClean(route: String) {
+    navigate(route = route) {
+        popUpTo(route = route) { inclusive = true }
+    }
+    graph.setStartDestination(route)
 }

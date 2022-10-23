@@ -55,8 +55,8 @@ val MubiTypography = Typography(
     titleLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        letterSpacing = 0.sp
+        fontSize = 20.sp,
+        letterSpacing = 0.01.em
     ),
     titleMedium = TextStyle(
         fontFamily = fonts,
