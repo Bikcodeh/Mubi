@@ -33,7 +33,6 @@ fun SearchContent(
             onTextChange = onTextChange,
             onBack = onBack
         )
-
     }
 }
 

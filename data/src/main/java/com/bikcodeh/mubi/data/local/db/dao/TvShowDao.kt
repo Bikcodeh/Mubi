@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TvShowDao {
@@ -24,4 +25,7 @@ interface TvShowDao {
 
     @Query("SELECT COUNT(id) FROM tvshow WHERE category = :category ")
     suspend fun existData(category: String): Int
+
+    @Query("SELECT * FROM tvshow WHERE name OR originalName LIKE :query")
+    fun searchTvShows(query: String): Flow<List<TvShowEntity>>
 }
