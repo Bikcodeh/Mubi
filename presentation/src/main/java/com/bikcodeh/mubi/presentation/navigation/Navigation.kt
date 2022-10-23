@@ -68,7 +68,10 @@ fun MubiNavigation(
                 })
         }
         composable(route = Screens.Search.route) {
-            SearchScreen(onBack = { navController.popBackStack() })
+            SearchScreen(onBack = { navController.popBackStack() },
+                onClickItem = {
+
+                })
         }
     }
 }

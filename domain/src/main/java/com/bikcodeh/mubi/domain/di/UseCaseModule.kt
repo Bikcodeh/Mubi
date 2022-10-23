@@ -2,7 +2,7 @@ package com.bikcodeh.mubi.domain.di
 
 import com.bikcodeh.mubi.domain.repository.TvRepository
 import com.bikcodeh.mubi.domain.usecase.GetTvShowsUC
-import com.bikcodeh.mubi.domain.usecase.SearchTvShows
+import com.bikcodeh.mubi.domain.usecase.SearchTvShowsUC
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ class UseCaseModule {
 
     @Provides
     @ViewModelScoped
-    fun providesSearchTvShowsUC(tvRepository: TvRepository): SearchTvShows =
-        SearchTvShows(tvRepository)
+    fun providesSearchTvShowsUC(tvRepository: TvRepository): SearchTvShowsUC =
+        SearchTvShowsUC(tvRepository)
 
 }

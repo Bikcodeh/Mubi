@@ -73,7 +73,7 @@ val MubiTypography = Typography(
     ),
     labelLarge = TextStyle(
         fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Light,
         fontSize = 14.sp,
         letterSpacing = 0.02.em
     ),

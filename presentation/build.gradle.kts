@@ -43,7 +43,7 @@ dependencies {
     implementation(Config.Dependencies.Compose.ui)
     implementation(Config.Dependencies.Compose.navigation)
     implementation(Config.Dependencies.Compose.constraintLayout)
-    implementation(Config.Dependencies.Compose.lifecycle)
+    api(Config.Dependencies.Compose.lifecycle)
     implementation(Config.Dependencies.Compose.paging)
     debugImplementation(Config.Dependencies.Compose.uiTooling)
     api(Config.Dependencies.Compose.material3)

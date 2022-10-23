@@ -5,6 +5,9 @@ import androidx.compose.ui.unit.sp
 
 val COMMON_PADDING = 16.dp
 val PADDING_VERTICAL_CHIPS = 24.dp
+val IMAGE_WIDTH_SEARCH_ITEM = 112.dp
+val CARD_HEIGHT_SEARCH_ITEM = 147.dp
+val DEFAULT_ELEVATION = 4.dp
 val PADDING_8 = 8.dp
 val PADDING_24 = 24.dp
 val PADDING_20 = 20.dp
