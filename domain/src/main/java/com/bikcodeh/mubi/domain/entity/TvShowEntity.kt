@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 data class TvShowEntity(
     val backdropPath: String,
     val firstAirDate: String,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey
+    val id: String,
     val name: String,
     val originalLanguage: String,
     val originalName: String,

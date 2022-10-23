@@ -26,12 +26,11 @@ class TvRepositoryImpl @Inject constructor(
 
     override fun getTvShows(tvShowType: TvShowType): Flow<PagingData<TvShowEntity>> {
 
-        val tvShowSourceFactory = { tvShowDao.getTvShows(tvShowType.name) }
+        val tvShowSourceFactory = { tvShowDao.getTvShows(tvShowType.tvName) }
 
         return Pager(
             PagingConfig(
-                pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
+                pageSize = NETWORK_PAGE_SIZE
             ),
             null,
             TvShowRemoteMediator(
@@ -45,6 +44,6 @@ class TvRepositoryImpl @Inject constructor(
     }
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 8
+        const val NETWORK_PAGE_SIZE = 10
     }
 }

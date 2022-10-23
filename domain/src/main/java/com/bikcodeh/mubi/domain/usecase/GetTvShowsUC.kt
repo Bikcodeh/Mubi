@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetTvShowsUC @Inject constructor(
     private val tvRepository: TvRepository
 ) {
-    suspend operator fun invoke(tvShowType: TvShowType) = tvRepository.getTvShows(tvShowType)
+    operator fun invoke(tvShowType: TvShowType) = tvRepository.getTvShows(tvShowType)
 }
