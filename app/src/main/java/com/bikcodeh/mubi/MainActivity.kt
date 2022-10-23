@@ -3,23 +3,23 @@ package com.bikcodeh.mubi
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.bikcodeh.mubi.domain.usecase.GetTvShowsUC
-import com.bikcodeh.mubi.presentation.screens.home.HomeScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.bikcodeh.mubi.presentation.navigation.MubiNavigation
 import com.bikcodeh.mubi.presentation.theme.MubiTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var getTvShowsUC: GetTvShowsUC
+    private lateinit var navController: NavHostController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            navController = rememberNavController()
             MubiTheme {
-                HomeScreen(onClickItem = {})
+                MubiNavigation(navController = navController)
             }
         }
     }
