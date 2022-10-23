@@ -47,7 +47,7 @@ class TvRepositoryImpl @Inject constructor(
     }
 
     override fun searchTvShows(query: String): Flow<List<TVShow>> {
-        return tvShowDao.searchTvShows(query)
+        return tvShowDao.searchTvShows("%$query%")
             .map { data -> data.map { tvShowEntity -> tvShowMapperEntity.map(tvShowEntity) } }
     }
 
