@@ -3,7 +3,7 @@ package com.bikcodeh.mubi.domain.model
 data class TVShow(
     val backdropPath: String,
     val firstAirDate: String,
-    val id: Int,
+    val id: String,
     val name: String,
     val originalLanguage: String,
     val originalName: String,
