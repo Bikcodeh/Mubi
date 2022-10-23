@@ -1,4 +1,4 @@
-package com.bikcodeh.mubi.data.local.dao
+package com.bikcodeh.mubi.data.local.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
