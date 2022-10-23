@@ -7,4 +7,11 @@
     <string name="mubi_title">Mubi</string>
     <string name="sign_in">Sign in to your account</string>
     <string name="log_in">Log in</string>
+    <string name="back">Back</string>
+    <string name="log_out">Log out</string>
+    <string name="dummy_name">Olivia W. Skinner</string>
+    <string name="dummy_username">\@OliviaW_Skinner</string>
+    <string name="edit_profile_picture">Edit profile picture</string>
+    <string name="profile_title">Profile</string>
+    <string name="my_favorites">My Favorites</string>
 </resources>
