@@ -1,8 +1,8 @@
 package com.bikcodeh.mubi.presentation.screens.profile
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -33,14 +33,19 @@ import com.bikcodeh.mubi.presentation.components.TvShowItem
 import com.bikcodeh.mubi.presentation.theme.*
 
 @Composable
-fun ProfileContent(tvShows: List<TVShow>) {
+fun ProfileContent(
+    tvShows: List<TVShow>,
+    onLogOut: () -> Unit,
+    onBack: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = MaterialTheme.colorScheme.backgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        GenericTopBar(onBack = { }, titleResId = R.string.profile_title)
+        GenericTopBar(onBack = onBack, titleResId = R.string.profile_title)
         ProfilePicture()
 
         TextFullCenter(
@@ -57,7 +62,7 @@ fun ProfileContent(tvShows: List<TVShow>) {
         FavoritesSection(tvShows)
 
         MubiActionButton(
-            onClick = { },
+            onClick = onLogOut,
             buttonTextResId = R.string.log_out,
             modifier = Modifier
                 .fillMaxWidth()
@@ -115,6 +120,9 @@ fun ProfilePicture() {
                 .constrainAs(edit) {
                     end.linkTo(parent.end, margin = MEDIUM_PADDING)
                     bottom.linkTo(parent.bottom)
+                }
+                .clickable {
+
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -166,7 +174,7 @@ fun ProfilePicturePreview() {
 @Preview(showBackground = true)
 fun ProfileContentPreview() {
     ProfileContent(
-        listOf(
+        tvShows = listOf(
             TVShow(
                 backdropPath = "",
                 firstAirDate = "",
@@ -227,6 +235,79 @@ fun ProfileContentPreview() {
                 isFavorite = false,
                 category = ""
             )
-        )
+        ),
+        onLogOut = {},
+        onBack = {}
+    )
+}
+
+@Composable
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+fun ProfileContentPreviewDark() {
+    ProfileContent(
+        tvShows = listOf(
+            TVShow(
+                backdropPath = "",
+                firstAirDate = "",
+                id = "",
+                name = "Big Hero 6",
+                originalLanguage = "",
+                originalName = "",
+                overview = "",
+                popularity = 0.0,
+                posterPath = "",
+                voteAverage = 4.0,
+                voteCount = 0,
+                isFavorite = false,
+                category = ""
+            ),
+            TVShow(
+                backdropPath = "",
+                firstAirDate = "",
+                id = "",
+                name = "Big Hero 6",
+                originalLanguage = "",
+                originalName = "",
+                overview = "",
+                popularity = 0.0,
+                posterPath = "",
+                voteAverage = 4.0,
+                voteCount = 0,
+                isFavorite = false,
+                category = ""
+            ),
+            TVShow(
+                backdropPath = "",
+                firstAirDate = "",
+                id = "",
+                name = "Big Hero 6",
+                originalLanguage = "",
+                originalName = "",
+                overview = "",
+                popularity = 0.0,
+                posterPath = "",
+                voteAverage = 4.0,
+                voteCount = 0,
+                isFavorite = false,
+                category = ""
+            ),
+            TVShow(
+                backdropPath = "",
+                firstAirDate = "",
+                id = "",
+                name = "Big Hero 6",
+                originalLanguage = "",
+                originalName = "",
+                overview = "",
+                popularity = 0.0,
+                posterPath = "",
+                voteAverage = 4.0,
+                voteCount = 0,
+                isFavorite = false,
+                category = ""
+            )
+        ),
+        onLogOut = {},
+        onBack = {}
     )
 }
