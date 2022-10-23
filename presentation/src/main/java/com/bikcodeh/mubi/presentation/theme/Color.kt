@@ -12,6 +12,7 @@ val MediumBlue = Color(0xFF0013CA)
 val Turquoise = Color(0xFF21BDCA)
 val Red = Color(0xFFF65164)
 val GhostWhite = Color(0xFFFBFAFE)
+val Indigo = Color(0xFF271A66)
 
 val BrilliantAzure = Color(0xFF31B5FE)
 val VeryLightBlue = Color(0xFF6243FF)
@@ -21,11 +22,15 @@ val OldLavender = Color(0xFF6B6B83)
 val CharlestonGreen = Color(0xFF2A2A2A)
 val ChineseBlack = Color(0xFF121212)
 val Gray = Color(0xFFD5D8DB)
-val CoolGrey = Color(0xFF8C8CA2)
+val CoolGrey = Color(0xFF8C8CA1)
 
 val ColorScheme.backgroundColor
     @Composable
     get() = if (!isSystemInDarkTheme()) AntiFlashWhite else ChineseBlack
+
+val ColorScheme.backgroundColorTopBar
+    @Composable
+    get() = if (!isSystemInDarkTheme()) VeryLightBlue else Indigo
 
 val ColorScheme.backgroundCardColor
     @Composable

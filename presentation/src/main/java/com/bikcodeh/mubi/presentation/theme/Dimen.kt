@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.sp
 
 val COMMON_PADDING = 16.dp
 val PADDING_VERTICAL_CHIPS = 24.dp
+val PADDING_8 = 8.dp
 val PADDING_24 = 24.dp
 val PADDING_20 = 20.dp
 val PADDING_32 = 32.dp

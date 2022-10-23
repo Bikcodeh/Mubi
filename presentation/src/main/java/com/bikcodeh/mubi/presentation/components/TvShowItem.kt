@@ -71,18 +71,20 @@ fun TvShowItem(tvShow: TVShow, onClickItem: (tvShow: TVShow) -> Unit) {
                     )
             ) {
                 val (rating, ratingValue) = createRefs()
-                val voteAverage =
-                    if (tvShow.voteAverage > Constants.MAXIMUM_AVERAGE) Constants.MAXIMUM_AVERAGE else tvShow.voteAverage
                 RatingBar(
                     modifier = Modifier.constrainAs(rating) {
                         start.linkTo(parent.start)
                         linkTo(parent.top, parent.bottom)
                     },
-                    rating = voteAverage,
+                    rating = tvShow.voteAverage,
                     stars = 5
                 )
                 Text(
-                    text = "$voteAverage",
+                    text = if (tvShow.voteAverage > Constants.MAXIMUM_AVERAGE) {
+                        "${Constants.MAXIMUM_AVERAGE}"
+                    } else {
+                        "${tvShow.voteAverage}"
+                    },
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.textColor,
                     modifier = Modifier.constrainAs(ratingValue) {

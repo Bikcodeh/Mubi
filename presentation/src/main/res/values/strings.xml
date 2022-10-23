@@ -14,4 +14,5 @@
     <string name="edit_profile_picture">Edit profile picture</string>
     <string name="profile_title">Profile</string>
     <string name="my_favorites">My Favorites</string>
+    <string name="search_placeholder">Search</string>
 </resources>
