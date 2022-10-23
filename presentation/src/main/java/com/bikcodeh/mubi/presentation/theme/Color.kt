@@ -11,17 +11,13 @@ val Pink80 = Color(0xFFEFB8C8)
 val MediumBlue = Color(0xFF0013CA)
 val Turquoise = Color(0xFF21BDCA)
 val Red = Color(0xFFF65164)
-val Gradient = Color(0xFF6243FF)
 val GhostWhite = Color(0xFFFBFAFE)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val BrilliantAzure = Color(0xFF31B5FE)
 val VeryLightBlue = Color(0xFF6243FF)
 val BallBlue = Color(0xFF21BDCA)
 val AntiFlashWhite = Color(0xFFF5F3F0)
 val OldLavender = Color(0xFF6B6B83)
-val GraniteGray = Color(0xFF656565)
 val CharlestonGreen = Color(0xFF2A2A2A)
 val ChineseBlack = Color(0xFF121212)
 val Gray = Color(0xFFD5D8DB)
@@ -37,3 +33,7 @@ val ColorScheme.backgroundCardColor
 val ColorScheme.textColor
     @Composable
     get() = if (!isSystemInDarkTheme()) OldLavender else Color.White
+
+val ColorScheme.textColorLogo
+    @Composable
+    get() = if (!isSystemInDarkTheme()) GhostWhite else VeryLightBlue

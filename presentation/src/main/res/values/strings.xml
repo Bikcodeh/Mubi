@@ -3,4 +3,6 @@
     <string name="home_title">Tv Shows</string>
     <string name="try_again">Try again</string>
     <string name="error_fetching_data">Ups! An error happened fetching more data.</string>
+    <string name="mubi_logo_description">Mubi logo</string>
+    <string name="mubi_title">Mubi</string>
 </resources>
