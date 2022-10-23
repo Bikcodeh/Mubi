@@ -42,6 +42,8 @@ object Config {
             const val jacoco = "0.8.7"
             const val coil = "2.2.2"
             const val materialIcons = "1.1.1"
+            const val leakCanary = "2.9.1"
+            const val dataStore = "1.0.0"
         }
 
         const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:${Version.moshi}"
@@ -52,6 +54,8 @@ object Config {
         const val timber = "com.jakewharton.timber:timber:${Version.timber}"
         const val coilImages = "io.coil-kt:coil-compose:${Version.coil}"
         const val materialIcons = "androidx.compose.material:material-icons-extended:${Version.materialIcons}"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Version.leakCanary}"
+        const val dataStore = "androidx.datastore:datastore-preferences:${Version.dataStore}"
 
         object Jetpack {
             const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"

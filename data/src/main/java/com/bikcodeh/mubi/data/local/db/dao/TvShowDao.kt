@@ -1,4 +1,4 @@
-package com.bikcodeh.mubi.data.local.dao
+package com.bikcodeh.mubi.data.local.db.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao

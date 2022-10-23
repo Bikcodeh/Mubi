@@ -5,7 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.bikcodeh.mubi.data.local.TvShowDatabase
+import com.bikcodeh.mubi.data.local.db.TvShowDatabase
 import com.bikcodeh.mubi.data.mappers.TvShowMapper
 import com.bikcodeh.mubi.data.remote.response.TVResponseDTO
 import com.bikcodeh.mubi.data.remote.service.TVApi

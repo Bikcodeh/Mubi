@@ -33,7 +33,3 @@ val ColorScheme.backgroundCardColor
 val ColorScheme.textColor
     @Composable
     get() = if (!isSystemInDarkTheme()) OldLavender else Color.White
-
-val ColorScheme.textColorLogo
-    @Composable
-    get() = if (!isSystemInDarkTheme()) GhostWhite else VeryLightBlue
