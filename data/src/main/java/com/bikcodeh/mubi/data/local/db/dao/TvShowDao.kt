@@ -26,6 +26,6 @@ interface TvShowDao {
     @Query("SELECT COUNT(id) FROM tvshow WHERE category = :category ")
     suspend fun existData(category: String): Int
 
-    @Query("SELECT * FROM tvshow WHERE name OR originalName LIKE :query")
+    @Query("SELECT * FROM tvshow WHERE name LIKE :query")
     fun searchTvShows(query: String): Flow<List<TvShowEntity>>
 }

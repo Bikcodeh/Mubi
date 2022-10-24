@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bikcodeh.mubi.presentation.R
-import com.bikcodeh.mubi.presentation.theme.GhostWhite
+import com.bikcodeh.mubi.presentation.theme.*
 
 @Composable
 fun HomeTopBar(
@@ -35,7 +35,9 @@ fun HomeTopBar(
             IconButton(onClick = onProfileClick) {
                 Icon(Icons.Default.AccountCircle, contentDescription = null, tint = GhostWhite)
             }
-        }
+        },
+        backgroundColor = MaterialTheme.colorScheme.backgroundColorTopBar,
+        elevation = DEFAULT_ELEVATION
     )
 }
 

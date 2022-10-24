@@ -24,9 +24,17 @@ val ChineseBlack = Color(0xFF121212)
 val Gray = Color(0xFFD5D8DB)
 val CoolGrey = Color(0xFF8C8CA1)
 
+val ColorScheme.statusBarColor
+    @Composable
+    get() = if (!isSystemInDarkTheme()) MediumBlue else ChineseBlack
+
 val ColorScheme.backgroundColor
     @Composable
     get() = if (!isSystemInDarkTheme()) AntiFlashWhite else ChineseBlack
+
+val ColorScheme.backgroundColorChipUnselected
+    @Composable
+    get() = if (!isSystemInDarkTheme()) VeryLightBlue else Indigo
 
 val ColorScheme.backgroundColorTopBar
     @Composable

@@ -8,9 +8,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import com.bikcodeh.mubi.presentation.theme.PADDING_4
 import com.bikcodeh.mubi.presentation.theme.VeryLightBlue
+import com.bikcodeh.mubi.presentation.theme.textColor
 
 
 @Composable
@@ -30,7 +32,8 @@ fun MubiActionButton(
         Text(
             text = stringResource(id = buttonTextResId).uppercase(),
             style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier.padding(PADDING_4),
+            color = Color.White
         )
     }
 }

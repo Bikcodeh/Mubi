@@ -12,10 +12,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -30,14 +27,14 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bikcodeh.mubi.presentation.R
 import com.bikcodeh.mubi.presentation.components.MubiBackButton
 import com.bikcodeh.mubi.presentation.theme.*
+import com.bikcodeh.mubi.presentation.util.Constants.MAX_LENGTH
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTopBar(
     text: String,
@@ -48,102 +45,111 @@ fun SearchTopBar(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val displayClearButton = rememberSaveable { mutableStateOf(false) }
-
-    ConstraintLayout(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(DEFAULT_HEIGHT_TOP_BAR)
-            .background(color = MaterialTheme.colorScheme.backgroundColorTopBar)
+            .padding(bottom = PADDING_4),
+        color = MaterialTheme.colorScheme.backgroundColorTopBar,
+        shadowElevation = DEFAULT_ELEVATION
     ) {
-        val (back, search) = createRefs()
-        MubiBackButton(
-            onBack = onBack,
-            modifier = Modifier
-                .constrainAs(back) {
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                }
-                .padding(end = PADDING_32)
-        )
-        BasicTextField(
-            textStyle = MaterialTheme.typography.bodySmall.copy(
-                color = MaterialTheme.colorScheme.textColor
-            ),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    onSearch(text)
-                    focusManager.clearFocus()
-                    keyboardController?.hide()
-                }
-            ),
-            maxLines = 1,
-            singleLine = true,
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.textColor),
-            value = text,
-            onValueChange = onTextChange,
-            modifier = Modifier
-                .background(
-                    MaterialTheme.colorScheme.backgroundColor,
-                    MaterialTheme.shapes.extraSmall
-                )
-                .constrainAs(search) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    linkTo(back.end, parent.end, endMargin = COMMON_PADDING)
-                    width = Dimension.fillToConstraints
-                }
-                .height(28.dp)
-                .onFocusChanged {
-                    displayClearButton.value = it.hasFocus
-                }
-                .pointerInput(Unit) {
-                    detectTapGestures(onTap = {
+        ConstraintLayout(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            val (back, search) = createRefs()
+            MubiBackButton(
+                onBack = onBack,
+                modifier = Modifier
+                    .constrainAs(back) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                    .padding(end = PADDING_32)
+            )
+            BasicTextField(
+                textStyle = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.textColor
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        onSearch(text)
                         focusManager.clearFocus()
                         keyboardController?.hide()
-                    })
-                },
-            decorationBox = { innerTextField ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = PADDING_8),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    if (text.isEmpty()) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            text = stringResource(id = R.string.search_placeholder),
-                            color = CoolGrey,
-                            style = MaterialTheme.typography.bodySmall
-                        )
                     }
-                    innerTextField()
-                    if (displayClearButton.value) {
-                        IconButton(
-                            onClick = {
-                                if (text.isNotEmpty()) {
-                                    onTextChange(String())
-                                }
-                                if (text.isEmpty()) {
-                                    focusManager.clearFocus()
-                                    keyboardController?.hide()
-                                }
-                            },
-                            modifier = Modifier.align(Alignment.CenterEnd)
-                        ) {
-                            Icon(
-                                Icons.Default.Clear,
-                                contentDescription = stringResource(id = R.string.clear_text),
-                                tint = MaterialTheme.colorScheme.textColor
+                ),
+                maxLines = 1,
+                singleLine = true,
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.textColor),
+                value = text,
+                onValueChange = { value ->
+                    if (value.trim().count() < MAX_LENGTH) {
+                        onTextChange(value)
+                    }
+                },
+                modifier = Modifier
+                    .background(
+                        MaterialTheme.colorScheme.backgroundColor,
+                        MaterialTheme.shapes.extraSmall
+                    )
+                    .constrainAs(search) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        linkTo(back.end, parent.end, endMargin = COMMON_PADDING)
+                        width = Dimension.fillToConstraints
+                    }
+                    .height(SEARCH_HEIGHT)
+                    .onFocusChanged {
+                        displayClearButton.value = it.hasFocus
+                    }
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = {
+                            focusManager.clearFocus()
+                            keyboardController?.hide()
+                        })
+                    },
+                decorationBox = { innerTextField ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = PADDING_8),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        if (text.isEmpty()) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                text = stringResource(id = R.string.search_placeholder),
+                                color = CoolGrey,
+                                style = MaterialTheme.typography.bodySmall
                             )
+                        }
+                        innerTextField()
+                        if (displayClearButton.value) {
+                            IconButton(
+                                onClick = {
+                                    if (text.isNotEmpty()) {
+                                        onTextChange(String())
+                                    }
+                                    if (text.isEmpty()) {
+                                        focusManager.clearFocus()
+                                        keyboardController?.hide()
+                                    }
+                                },
+                                modifier = Modifier.align(Alignment.CenterEnd)
+                            ) {
+                                Icon(
+                                    Icons.Default.Clear,
+                                    contentDescription = stringResource(id = R.string.clear_text),
+                                    tint = MaterialTheme.colorScheme.textColor
+                                )
+                            }
                         }
                     }
                 }
-            }
-        )
+            )
+        }
     }
 }
 

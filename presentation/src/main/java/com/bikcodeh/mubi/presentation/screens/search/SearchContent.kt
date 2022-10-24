@@ -3,6 +3,7 @@
 package com.bikcodeh.mubi.presentation.screens.search
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,9 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.bikcodeh.mubi.domain.model.TVShow
+import com.bikcodeh.mubi.presentation.R
 import com.bikcodeh.mubi.presentation.components.CoilImage
 import com.bikcodeh.mubi.presentation.components.RatingBar
 import com.bikcodeh.mubi.presentation.theme.*
@@ -27,7 +31,7 @@ fun SearchContent(
     text: String,
     onTextChange: (value: String) -> Unit,
     onBack: () -> Unit,
-    tvShows: List<TVShow>,
+    tvShowsState: SearchState,
     onClickItem: (tvShow: TVShow) -> Unit,
     onSearch: (text: String) -> Unit
 ) {
@@ -42,24 +46,69 @@ fun SearchContent(
             onBack = onBack,
             onSearch = onSearch
         )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = COMMON_PADDING,
-                    end = COMMON_PADDING,
-                    top = COMMON_PADDING
-                ),
-            verticalArrangement = Arrangement.spacedBy(PADDING_8)
-        ) {
-            items(tvShows) { tvShow ->
-                SearchItem(
-                    tvShow = tvShow,
-                    onClickItem = onClickItem
-                )
+        when (tvShowsState) {
+            SearchState.Idle -> {
+                SearchGenericMessage(messageResId = R.string.what_would_you_like_to_see)
+            }
+            is SearchState.Success -> {
+                if (tvShowsState.tvShows.isEmpty()) {
+                    SearchGenericMessage(messageResId = R.string.empty_search)
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                start = COMMON_PADDING,
+                                end = COMMON_PADDING,
+                                top = COMMON_PADDING
+                            ),
+                        verticalArrangement = Arrangement.spacedBy(PADDING_8)
+                    ) {
+                        items(tvShowsState.tvShows) { tvShow ->
+                            SearchItem(
+                                tvShow = tvShow,
+                                onClickItem = onClickItem
+                            )
+                        }
+                    }
+                }
             }
         }
     }
+}
+
+@Composable
+fun SearchGenericMessage(
+    @StringRes messageResId: Int
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.backgroundColor),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = COMMON_PADDING),
+            text = stringResource(id = messageResId),
+            color = MaterialTheme.colorScheme.textColor,
+            style = MaterialTheme.typography.headlineMedium,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Preview(showBackground = true, heightDp = 500)
+@Composable
+fun SearchGenericMessagePreview() {
+    SearchGenericMessage(R.string.what_would_you_like_to_see)
+}
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES, heightDp = 500)
+@Composable
+fun SearchGenericMessagePreviewDark() {
+    SearchGenericMessage(R.string.what_would_you_like_to_see)
 }
 
 @ExperimentalMaterial3Api
@@ -194,51 +243,53 @@ fun SearchContentPreview() {
         onTextChange = {},
         onBack = {},
         onClickItem = {},
-        tvShows = listOf(
-            TVShow(
-                backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                firstAirDate = "",
-                id = "",
-                name = "Breaking Bad",
-                originalLanguage = "",
-                originalName = "",
-                overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 3.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = ""
-            ),
-            TVShow(
-                backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                firstAirDate = "",
-                id = "",
-                name = "Breaking Bad",
-                originalLanguage = "",
-                originalName = "",
-                overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 3.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = ""
-            ),
-            TVShow(
-                backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                firstAirDate = "",
-                id = "",
-                name = "Breaking Bad",
-                originalLanguage = "",
-                originalName = "",
-                overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 3.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = ""
+        tvShowsState = SearchState.Success(
+            tvShows = listOf(
+                TVShow(
+                    backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    firstAirDate = "",
+                    id = "",
+                    name = "Breaking Bad",
+                    originalLanguage = "",
+                    originalName = "",
+                    overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
+                    popularity = 0.0,
+                    posterPath = "",
+                    voteAverage = 3.0,
+                    voteCount = 0,
+                    isFavorite = false,
+                    category = ""
+                ),
+                TVShow(
+                    backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    firstAirDate = "",
+                    id = "",
+                    name = "Breaking Bad",
+                    originalLanguage = "",
+                    originalName = "",
+                    overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
+                    popularity = 0.0,
+                    posterPath = "",
+                    voteAverage = 3.0,
+                    voteCount = 0,
+                    isFavorite = false,
+                    category = ""
+                ),
+                TVShow(
+                    backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    firstAirDate = "",
+                    id = "",
+                    name = "Breaking Bad",
+                    originalLanguage = "",
+                    originalName = "",
+                    overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
+                    popularity = 0.0,
+                    posterPath = "",
+                    voteAverage = 3.0,
+                    voteCount = 0,
+                    isFavorite = false,
+                    category = ""
+                )
             )
         ),
         onSearch = {}
@@ -252,51 +303,53 @@ fun SearchContentPreviewDark() {
         text = "",
         onTextChange = {},
         onBack = {},
-        tvShows = listOf(
-            TVShow(
-                backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                firstAirDate = "",
-                id = "",
-                name = "Breaking Bad",
-                originalLanguage = "",
-                originalName = "",
-                overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 3.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = ""
-            ),
-            TVShow(
-                backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                firstAirDate = "",
-                id = "",
-                name = "Breaking Bad",
-                originalLanguage = "",
-                originalName = "",
-                overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 3.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = ""
-            ),
-            TVShow(
-                backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                firstAirDate = "",
-                id = "",
-                name = "Breaking Bad",
-                originalLanguage = "",
-                originalName = "",
-                overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 3.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = ""
+        tvShowsState = SearchState.Success(
+            tvShows = listOf(
+                TVShow(
+                    backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    firstAirDate = "",
+                    id = "",
+                    name = "Breaking Bad",
+                    originalLanguage = "",
+                    originalName = "",
+                    overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
+                    popularity = 0.0,
+                    posterPath = "",
+                    voteAverage = 3.0,
+                    voteCount = 0,
+                    isFavorite = false,
+                    category = ""
+                ),
+                TVShow(
+                    backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    firstAirDate = "",
+                    id = "",
+                    name = "Breaking Bad",
+                    originalLanguage = "",
+                    originalName = "",
+                    overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
+                    popularity = 0.0,
+                    posterPath = "",
+                    voteAverage = 3.0,
+                    voteCount = 0,
+                    isFavorite = false,
+                    category = ""
+                ),
+                TVShow(
+                    backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                    firstAirDate = "",
+                    id = "",
+                    name = "Breaking Bad",
+                    originalLanguage = "",
+                    originalName = "",
+                    overview = "Big Hero 6 The Series\" takes place after the events of the film \"Big Hero 6\" and continues the adventures of 14-year-old tech genius Hiro Hamada. He is joined by the compassionate robot Baymax.",
+                    popularity = 0.0,
+                    posterPath = "",
+                    voteAverage = 3.0,
+                    voteCount = 0,
+                    isFavorite = false,
+                    category = ""
+                )
             )
         ),
         onClickItem = {},
