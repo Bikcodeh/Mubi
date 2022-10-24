@@ -11,8 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.bikcodeh.mubi.presentation.theme.BallBlue
-import kotlin.math.floor
+import com.bikcodeh.mubi.presentation.util.Constants
 import kotlin.math.ceil
+import kotlin.math.floor
 
 @Composable
 fun RatingBar(
@@ -21,10 +22,10 @@ fun RatingBar(
     stars: Int = 5,
     starsColor: Color = BallBlue,
 ) {
-
-    val filledStars = floor(rating).toInt()
-    val unfilledStars = (stars - ceil(rating)).toInt()
-    val halfStar = !(rating.rem(1).equals(0.0))
+    val voteAverage = if (rating > Constants.MAXIMUM_AVERAGE) Constants.MAXIMUM_AVERAGE else rating
+    val filledStars = floor(voteAverage).toInt()
+    val unfilledStars = (stars - ceil(voteAverage)).toInt()
+    val halfStar = !(voteAverage.rem(1).equals(0.0))
 
     Row(modifier = modifier) {
         repeat(filledStars) {

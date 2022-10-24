@@ -3,12 +3,8 @@ package com.bikcodeh.mubi.presentation.components
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -37,19 +33,14 @@ fun GenericTopBar(
                 .fillMaxWidth()
         ) {
             val (back, title) = createRefs()
-            IconButton(
-                onClick = onBack,
+            MubiBackButton(
+                onBack = onBack,
                 modifier = Modifier.constrainAs(back) {
                     start.linkTo(parent.start)
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
-                }) {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back),
-                    tint = GhostWhite
-                )
-            }
+                }
+            )
             Text(
                 text = stringResource(id = titleResId),
                 color = GhostWhite,

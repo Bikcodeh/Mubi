@@ -51,11 +51,12 @@ fun MubiChipItem(
     isSelected: Boolean,
     onSelectionChange: (String) -> Unit
 ) {
+    val color = if (isSelected) MaterialTheme.colorScheme.backgroundColorChipUnselected else Gray
     Chip(
         onClick = { onSelectionChange(tvShowType.tvName) },
         modifier = Modifier.padding(horizontal = 4.dp),
         colors = ChipDefaults.chipColors(
-            backgroundColor = if (isSelected) VeryLightBlue else Gray
+            backgroundColor = color
         )
     ) {
         Text(
