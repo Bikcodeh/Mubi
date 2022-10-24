@@ -10,6 +10,9 @@ import com.bikcodeh.mubi.data.mappers.TvShowMapper
 import com.bikcodeh.mubi.data.mappers.TvShowMapperEntity
 import com.bikcodeh.mubi.data.pagination.TvShowRemoteMediator
 import com.bikcodeh.mubi.data.remote.service.TVApi
+import com.bikcodeh.mubi.domain.common.Result
+import com.bikcodeh.mubi.domain.common.fold
+import com.bikcodeh.mubi.domain.common.makeSafeRequest
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
@@ -49,6 +52,21 @@ class TvRepositoryImpl @Inject constructor(
     override fun searchTvShows(query: String): Flow<List<TVShow>> {
         return tvShowDao.searchTvShows("%$query%")
             .map { data -> data.map { tvShowEntity -> tvShowMapperEntity.map(tvShowEntity) } }
+    }
+
+    override suspend fun searchTvShowsRemote(query: String): Result<List<TVShow>> {
+        val response = makeSafeRequest { tvApi.searchTvShow(query) }
+        return response.fold(
+            onSuccess = {
+                Result.Success(it.results.map { tvShowDTO -> tvShowDTO.toDomain() })
+            },
+            onError = { code, message ->
+                Result.Error(code, message)
+            },
+            onException = {
+                Result.Exception(it)
+            }
+        )
     }
 
     companion object {

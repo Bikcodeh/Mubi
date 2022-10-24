@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.presentation.R
 import com.bikcodeh.mubi.presentation.components.CoilImage
+import com.bikcodeh.mubi.presentation.components.ErrorScreen
+import com.bikcodeh.mubi.presentation.components.LoadingScreen
 import com.bikcodeh.mubi.presentation.components.RatingBar
 import com.bikcodeh.mubi.presentation.theme.*
 import com.bikcodeh.mubi.presentation.util.Constants
@@ -73,6 +75,20 @@ fun SearchContent(
                     }
                 }
             }
+            is SearchState.Failure -> {
+                tvShowsState.error?.let {
+                    if (it.notFoundError) {
+                        SearchGenericMessage(messageResId = it.errorMessage)
+                    } else {
+                        ErrorScreen(
+                            messageId = it.errorMessage,
+                            onTryAgain = { onSearch(text) },
+                            displayTryButton = it.displayTryAgainBtn
+                        )
+                    }
+                }
+            }
+            SearchState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
         }
     }
 }

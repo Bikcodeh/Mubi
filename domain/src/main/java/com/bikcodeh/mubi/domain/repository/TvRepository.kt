@@ -10,4 +10,5 @@ import kotlinx.coroutines.flow.Flow
 interface TvRepository {
     fun getTvShows(tvShowType: TvShowType): Flow<PagingData<TvShowEntity>>
     fun searchTvShows(query: String): Flow<List<TVShow>>
+    suspend fun searchTvShowsRemote(query: String): Result<List<TVShow>>
 }

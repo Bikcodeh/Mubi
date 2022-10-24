@@ -18,7 +18,7 @@ fun SearchScreen(
     searchViewModel: SearchViewModel = hiltViewModel(),
     onClickItem: (tvShow: TVShow) -> Unit
 ) {
-    val tvShowsState by searchViewModel.tvShows.collectAsStateWithLifecycle()
+    val tvShowsState by searchViewModel.searchTvShowsState.collectAsStateWithLifecycle()
     val searchText = rememberSaveable { mutableStateOf("") }
 
     SearchContent(

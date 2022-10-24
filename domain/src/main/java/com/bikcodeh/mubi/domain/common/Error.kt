@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import com.bikcodeh.mubi.domain.R
 import retrofit2.HttpException
 import java.io.IOException
+import java.net.HttpURLConnection
 import java.net.UnknownHostException
 
 /**
@@ -11,7 +12,8 @@ import java.net.UnknownHostException
  */
 sealed class Error {
     object Connectivity : Error()
-    object InternetConnection: Error()
+    object InternetConnection : Error()
+    data class NotFoundTvShow(@StringRes val messageResId: Int) : Error()
     data class Unknown(val message: String) : Error()
     class HttpException(@StringRes val messageResId: Int) : Error()
 }
@@ -53,10 +55,12 @@ object HttpErrors {
      * @return Error
      */
     fun handleError(errorCode: Int): Error {
+        if (errorCode == HttpURLConnection.HTTP_NOT_FOUND) {
+            return Error.NotFoundTvShow(R.string.not_found_error)
+        }
         val errorResId = when (errorCode) {
             503 -> R.string.service_unavailable_error
             500 -> R.string.internal_server_error
-            404 -> R.string.not_found_error
             400 -> R.string.invalid_request_error
             401 -> R.string.unauthorized_error
             else -> R.string.unknown_error

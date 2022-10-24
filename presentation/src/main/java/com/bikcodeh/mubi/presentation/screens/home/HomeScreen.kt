@@ -52,7 +52,9 @@ fun HomeScreen(
             result.error?.let {
                 ErrorScreen(
                     messageId = handleError(error = it),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    onTryAgain = { tvShows.retry() },
+                    displayTryButton = true
                 )
             }
         } else {
