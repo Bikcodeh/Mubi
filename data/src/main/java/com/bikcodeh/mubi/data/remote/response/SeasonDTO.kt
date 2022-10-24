@@ -7,7 +7,7 @@ data class SeasonDTO(
     val id: Int,
     val name: String,
     @Json(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String? = "",
     @Json(name = "episode_count")
     val totalEpisodes: Int,
     val overview: String
