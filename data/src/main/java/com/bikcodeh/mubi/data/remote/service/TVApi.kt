@@ -26,4 +26,9 @@ interface TVApi {
     suspend fun getOnTheAirTvShows(
         @Query("page") page: Int
     ): Response<TVResponseDTO>
+
+    @GET("search/tv")
+    suspend fun searchTvShow(
+        @Query("query") query: String
+    ): Response<TVResponseDTO>
 }

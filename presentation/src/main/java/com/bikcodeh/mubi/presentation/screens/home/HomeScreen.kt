@@ -31,7 +31,8 @@ import com.bikcodeh.mubi.presentation.util.ErrorLoadState
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     onClickItem: (tvShow: TVShow) -> Unit,
-    navigateToProfile: () -> Unit
+    navigateToProfile: () -> Unit,
+    navigateToSearch: () -> Unit
 ) {
     val selectedCTvShowType = rememberSaveable { mutableStateOf<TvShowType>(TvShowType.POPULAR) }
 
@@ -44,14 +45,16 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeTopBar(onSearchClick = {}, onProfileClick = navigateToProfile)
+            HomeTopBar(onSearchClick = navigateToSearch, onProfileClick = navigateToProfile)
         }
     ) { paddingValues ->
         if (result.isRefresh) {
             result.error?.let {
                 ErrorScreen(
                     messageId = handleError(error = it),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    onTryAgain = { tvShows.retry() },
+                    displayTryButton = true
                 )
             }
         } else {

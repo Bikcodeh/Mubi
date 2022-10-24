@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import com.bikcodeh.mubi.data.local.db.TvShowDatabase
 import com.bikcodeh.mubi.data.local.db.dao.TvShowDao
 import com.bikcodeh.mubi.data.mappers.TvShowMapper
+import com.bikcodeh.mubi.data.mappers.TvShowMapperEntity
 import com.bikcodeh.mubi.data.remote.service.TVApi
 import com.bikcodeh.mubi.data.repository.TvRepositoryImpl
 import com.bikcodeh.mubi.domain.repository.TvRepository
@@ -24,12 +25,14 @@ class RepositoryModule {
         tvShowDao: TvShowDao,
         tvShowDatabase: TvShowDatabase,
         tvApi: TVApi,
-        tvShowMapper: TvShowMapper
+        tvShowMapper: TvShowMapper,
+        tvShowMapperEntity: TvShowMapperEntity
     ): TvRepository =
         TvRepositoryImpl(
             tvShowDao,
             tvShowDatabase,
             tvApi,
-            tvShowMapper
+            tvShowMapper,
+            tvShowMapperEntity
         )
 }

@@ -73,9 +73,9 @@ val MubiTypography = Typography(
     ),
     labelLarge = TextStyle(
         fontFamily = fonts,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Light,
         fontSize = 14.sp,
-        letterSpacing = 0.1.em
+        letterSpacing = 0.02.em
     ),
     labelMedium = TextStyle(
         fontFamily = fonts,
@@ -105,6 +105,6 @@ val MubiTypography = Typography(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        letterSpacing = 0.4.em
+        letterSpacing = 0.02.em
     )
 )

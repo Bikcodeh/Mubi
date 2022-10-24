@@ -14,4 +14,8 @@
     <string name="edit_profile_picture">Edit profile picture</string>
     <string name="profile_title">Profile</string>
     <string name="my_favorites">My Favorites</string>
+    <string name="search_placeholder">Search</string>
+    <string name="clear_text">Clear text</string>
+    <string name="what_would_you_like_to_see">What would you like to watch?</string>
+    <string name="empty_search">Ups! We didn\'t find results.</string>
 </resources>
