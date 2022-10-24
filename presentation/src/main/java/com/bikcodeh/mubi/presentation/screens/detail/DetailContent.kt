@@ -78,7 +78,7 @@ fun DetailHeader(
     ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()
-            .height(232.dp)
+            .height(HEIGHT_DETAIL_HEADER)
     ) {
         val brush = Brush.verticalGradient(
             listOf(
@@ -99,7 +99,8 @@ fun DetailHeader(
                 .constrainAs(poster) {
                     linkTo(parent.start, parent.end)
                     linkTo(parent.top, parent.bottom)
-                }
+                },
+            contentScale = ContentScale.FillBounds
         )
         Box(modifier = Modifier
             .fillMaxHeight(0.7f)
@@ -129,7 +130,7 @@ fun DetailHeader(
                     bottom.linkTo(rating.top)
                 },
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.textColor
+            color = GhostWhite
         )
     }
 }

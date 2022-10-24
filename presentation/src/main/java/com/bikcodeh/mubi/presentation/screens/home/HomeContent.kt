@@ -3,10 +3,8 @@ package com.bikcodeh.mubi.presentation.screens.home
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -36,6 +34,7 @@ import com.bikcodeh.mubi.presentation.theme.backgroundColor
 import com.bikcodeh.mubi.presentation.theme.textColor
 import com.bikcodeh.mubi.presentation.util.ErrorLoadState
 import com.bikcodeh.mubi.presentation.util.extension.items
+import com.bikcodeh.mubi.presentation.util.extension.rememberCustomLazyGridState
 
 @Composable
 fun HomeContent(
@@ -45,8 +44,7 @@ fun HomeContent(
     errorState: ErrorLoadState,
     selectedCTvShowType: TvShowType,
     onSelectionChange: (String) -> Unit,
-    isLoading: Boolean,
-    lazyListState: LazyGridState
+    isLoading: Boolean
 ) {
     Column(modifier = modifier) {
         MubiChips(
@@ -61,7 +59,7 @@ fun HomeContent(
                 contentPadding = PaddingValues(PADDING_ITEM),
                 horizontalArrangement = Arrangement.spacedBy(SPACING_ITEM),
                 verticalArrangement = Arrangement.spacedBy(SPACING_ITEM),
-                state = lazyListState
+                state = tvShows.rememberCustomLazyGridState()
             ) {
                 items(
                     items = tvShows,
