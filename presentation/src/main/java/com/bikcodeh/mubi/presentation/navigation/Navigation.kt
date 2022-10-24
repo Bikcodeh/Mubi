@@ -6,8 +6,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.bikcodeh.mubi.presentation.screens.detail.DetailScreen
 import com.bikcodeh.mubi.presentation.screens.home.HomeScreen
 import com.bikcodeh.mubi.presentation.screens.login.LoginScreen
 import com.bikcodeh.mubi.presentation.screens.profile.ProfileScreen
@@ -40,7 +43,9 @@ fun MubiNavigation(
         }
         composable(route = Screens.Home.route) {
             HomeScreen(
-                onClickItem = {},
+                onClickItem = {
+                    navController.navigate(Screens.Detail.passTvShowId(tvShowId = it.id))
+                },
                 navigateToProfile = {
                     navController.navigate(Screens.Profile.route)
                 }, navigateToSearch = {
@@ -69,9 +74,21 @@ fun MubiNavigation(
         }
         composable(route = Screens.Search.route) {
             SearchScreen(onBack = { navController.popBackStack() },
-                onClickItem = {
-
-                })
+                onClickItem = {})
+        }
+        composable(
+            route = Screens.Detail.route,
+            arguments = listOf(navArgument(Screens.Detail.NAV_ARG_KEY) {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val tvShowId = backStackEntry.arguments?.getString(Screens.Detail.NAV_ARG_KEY)
+            tvShowId?.let {
+                DetailScreen(
+                    tvShowId = tvShowId,
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.bikcodeh.mubi.presentation.screens.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -42,6 +43,7 @@ fun HomeScreen(
 
     val tvShows = homeViewModel.tvShows.collectAsState().value.collectAsLazyPagingItems()
     val result = handlePagingResult(tvShows = tvShows)
+    val lazyListState = rememberLazyGridState()
 
     Scaffold(
         topBar = {
@@ -73,7 +75,8 @@ fun HomeScreen(
                     getTvShowType(tvShowTypeName)?.let { tvShowType ->
                         selectedCTvShowType.value = tvShowType
                     }
-                }
+                },
+                lazyListState = lazyListState
             )
         }
     }

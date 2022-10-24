@@ -1,5 +1,7 @@
 package com.bikcodeh.mubi.data.di
 
+import com.bikcodeh.mubi.data.mappers.SeasonMapper
+import com.bikcodeh.mubi.data.mappers.SeasonMapperEntity
 import com.bikcodeh.mubi.data.mappers.TvShowMapper
 import com.bikcodeh.mubi.data.mappers.TvShowMapperEntity
 import dagger.Module
@@ -14,9 +16,9 @@ object MapperModule {
 
     @Provides
     @ViewModelScoped
-    fun providesTvShowMapper(): TvShowMapper = TvShowMapper()
+    fun providesTvShowMapper(): TvShowMapper = TvShowMapper(SeasonMapper())
 
     @Provides
     @ViewModelScoped
-    fun providesTvShowMapperEntity(): TvShowMapperEntity = TvShowMapperEntity()
+    fun providesTvShowMapperEntity(): TvShowMapperEntity = TvShowMapperEntity(SeasonMapperEntity())
 }

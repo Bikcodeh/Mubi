@@ -69,6 +69,21 @@ class TvRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getDetailTvShow(tvShowId: String): Result<TVShow> {
+        val response = makeSafeRequest { tvApi.getDetailTvShow(tvShowId) }
+        return response.fold(
+            onSuccess = {
+                Result.Success(it.toDomain())
+            },
+            onError = { code, message ->
+                Result.Error(code, message)
+            },
+            onException = {
+                Result.Exception(it)
+            }
+        )
+    }
+
     companion object {
         const val NETWORK_PAGE_SIZE = 10
     }

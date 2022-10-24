@@ -18,4 +18,9 @@
     <string name="clear_text">Clear text</string>
     <string name="what_would_you_like_to_see">What would you like to watch?</string>
     <string name="empty_search">Ups! We didn\'t find results.</string>
+    <string name="summary">Summary</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$d Episode</item>
+        <item quantity="other">%1$d Episodes</item>
+    </plurals>
 </resources>

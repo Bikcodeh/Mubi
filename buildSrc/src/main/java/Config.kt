@@ -44,6 +44,7 @@ object Config {
             const val materialIcons = "1.1.1"
             const val leakCanary = "2.9.1"
             const val dataStore = "1.0.0"
+            const val gson = "2.9.1"
         }
 
         const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:${Version.moshi}"
@@ -56,6 +57,7 @@ object Config {
         const val materialIcons = "androidx.compose.material:material-icons-extended:${Version.materialIcons}"
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Version.leakCanary}"
         const val dataStore = "androidx.datastore:datastore-preferences:${Version.dataStore}"
+        const val gson = "com.google.code.gson:gson:${Version.gson}"
 
         object Jetpack {
             const val coreKtx = "androidx.core:core-ktx:${Version.coreKtx}"

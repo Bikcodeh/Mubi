@@ -18,5 +18,6 @@ data class TvShowEntity(
     val voteAverage: Double,
     val voteCount: Int,
     val isFavorite: Boolean,
-    val category: String
+    val category: String,
+    val seasons: List<SeasonEntity>? = null
 )

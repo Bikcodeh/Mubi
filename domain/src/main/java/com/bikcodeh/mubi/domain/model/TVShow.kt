@@ -9,9 +9,10 @@ data class TVShow(
     val originalName: String,
     val overview: String,
     val popularity: Double,
-    val posterPath: String,
+    val posterPath: String = "",
     val voteAverage: Double,
     val voteCount: Int,
     var isFavorite: Boolean = false,
-    val category: String = ""
+    val category: String = "",
+    val seasons: List<Season>? = null
 )

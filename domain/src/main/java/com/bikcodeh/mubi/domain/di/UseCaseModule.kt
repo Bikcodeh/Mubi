@@ -1,6 +1,7 @@
 package com.bikcodeh.mubi.domain.di
 
 import com.bikcodeh.mubi.domain.repository.TvRepository
+import com.bikcodeh.mubi.domain.usecase.GetDetailTvShowUC
 import com.bikcodeh.mubi.domain.usecase.GetTvShowsUC
 import com.bikcodeh.mubi.domain.usecase.SearchTvShowsRemoteUC
 import com.bikcodeh.mubi.domain.usecase.SearchTvShowsUC
@@ -28,5 +29,10 @@ class UseCaseModule {
     @ViewModelScoped
     fun providesSearchTvShowsRemoteUC(tvRepository: TvRepository): SearchTvShowsRemoteUC =
         SearchTvShowsRemoteUC(tvRepository)
+
+    @Provides
+    @ViewModelScoped
+    fun providesGetDetailTvShowUC(tvRepository: TvRepository): GetDetailTvShowUC =
+        GetDetailTvShowUC(tvRepository)
 
 }

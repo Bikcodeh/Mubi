@@ -3,8 +3,10 @@ package com.bikcodeh.mubi.presentation.screens.home
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -43,7 +45,8 @@ fun HomeContent(
     errorState: ErrorLoadState,
     selectedCTvShowType: TvShowType,
     onSelectionChange: (String) -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    lazyListState: LazyGridState
 ) {
     Column(modifier = modifier) {
         MubiChips(
@@ -57,7 +60,8 @@ fun HomeContent(
                 columns = GridCells.Fixed(COLUMNS_ITEM),
                 contentPadding = PaddingValues(PADDING_ITEM),
                 horizontalArrangement = Arrangement.spacedBy(SPACING_ITEM),
-                verticalArrangement = Arrangement.spacedBy(SPACING_ITEM)
+                verticalArrangement = Arrangement.spacedBy(SPACING_ITEM),
+                state = lazyListState
             ) {
                 items(
                     items = tvShows,
