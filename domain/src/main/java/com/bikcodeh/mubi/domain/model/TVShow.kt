@@ -14,5 +14,5 @@ data class TVShow(
     val voteCount: Int,
     var isFavorite: Boolean = false,
     var category: String = "",
-    val seasons: List<Season>? = null
+    val seasons: List<Season>
 )

@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("jacoco")
+    id("kotlin-parcelize")
 }
 android {
     compileSdk = Config.AndroidSdk.compile

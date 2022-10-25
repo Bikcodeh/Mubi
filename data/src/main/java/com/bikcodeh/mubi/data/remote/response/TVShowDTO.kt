@@ -38,6 +38,6 @@ data class TVShowDTO(
         voteCount,
         false,
         category,
-        seasons?.map { it.toDomain() }
+        seasons?.map { it.toDomain() }.orEmpty()
     )
 }

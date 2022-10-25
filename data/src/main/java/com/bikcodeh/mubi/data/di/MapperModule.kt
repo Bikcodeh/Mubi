@@ -7,18 +7,31 @@ import com.bikcodeh.mubi.data.mappers.TvShowMapperEntity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object MapperModule {
 
     @Provides
-    @ViewModelScoped
-    fun providesTvShowMapper(): TvShowMapper = TvShowMapper(SeasonMapper())
+    @Singleton
+    fun providesSeasonMapperEntity(): SeasonMapperEntity = SeasonMapperEntity()
 
     @Provides
-    @ViewModelScoped
-    fun providesTvShowMapperEntity(): TvShowMapperEntity = TvShowMapperEntity(SeasonMapperEntity())
+    @Singleton
+    fun providesSeasonMapper(): SeasonMapper = SeasonMapper()
+
+    @Provides
+    @Singleton
+    fun providesTvShowMapper(
+        seasonMapper: SeasonMapper
+    ): TvShowMapper = TvShowMapper(seasonMapper)
+
+    @Provides
+    @Singleton
+    fun providesTvShowMapperEntity(
+        seasonMapperEntity: SeasonMapperEntity
+    ): TvShowMapperEntity = TvShowMapperEntity(seasonMapperEntity)
 }

@@ -72,10 +72,8 @@ fun DetailContent(
                 setAsFavorite = setAsFavorite
             )
         }
-        tvShow.seasons?.let {
-            items(it) { season ->
-                DetailSeasonItem(season = season)
-            }
+        items(tvShow.seasons) { season ->
+            DetailSeasonItem(season = season)
         }
     }
 }

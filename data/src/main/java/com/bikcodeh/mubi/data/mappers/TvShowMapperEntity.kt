@@ -25,7 +25,7 @@ class TvShowMapperEntity @Inject constructor(
                 voteCount,
                 isFavorite,
                 category,
-                seasons?.map { seasonEntity -> seasonMapperEntity.map(seasonEntity) }
+                seasons.map { seasonEntity -> seasonMapperEntity.map(seasonEntity) }
             )
         }
     }

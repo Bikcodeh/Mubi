@@ -221,7 +221,8 @@ fun SearchItemPreview() {
             voteAverage = 3.0,
             voteCount = 0,
             isFavorite = false,
-            category = ""
+            category = "",
+            seasons = emptyList()
         ),
         onClickItem = {}
     )
@@ -245,7 +246,8 @@ fun SearchItemPreviewDark() {
             voteAverage = 3.0,
             voteCount = 0,
             isFavorite = false,
-            category = ""
+            category = "",
+            seasons = emptyList()
         ),
         onClickItem = {}
     )
@@ -274,7 +276,8 @@ fun SearchContentPreview() {
                     voteAverage = 3.0,
                     voteCount = 0,
                     isFavorite = false,
-                    category = ""
+                    category = "",
+                    seasons = emptyList()
                 ),
                 TVShow(
                     backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
@@ -289,7 +292,8 @@ fun SearchContentPreview() {
                     voteAverage = 3.0,
                     voteCount = 0,
                     isFavorite = false,
-                    category = ""
+                    category = "",
+                    seasons = emptyList()
                 ),
                 TVShow(
                     backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
@@ -304,7 +308,8 @@ fun SearchContentPreview() {
                     voteAverage = 3.0,
                     voteCount = 0,
                     isFavorite = false,
-                    category = ""
+                    category = "",
+                    seasons = emptyList()
                 )
             )
         ),
@@ -334,7 +339,8 @@ fun SearchContentPreviewDark() {
                     voteAverage = 3.0,
                     voteCount = 0,
                     isFavorite = false,
-                    category = ""
+                    category = "",
+                    seasons = emptyList()
                 ),
                 TVShow(
                     backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
@@ -349,7 +355,8 @@ fun SearchContentPreviewDark() {
                     voteAverage = 3.0,
                     voteCount = 0,
                     isFavorite = false,
-                    category = ""
+                    category = "",
+                    seasons = emptyList()
                 ),
                 TVShow(
                     backdropPath = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
@@ -364,7 +371,8 @@ fun SearchContentPreviewDark() {
                     voteAverage = 3.0,
                     voteCount = 0,
                     isFavorite = false,
-                    category = ""
+                    category = "",
+                    seasons = emptyList()
                 )
             )
         ),

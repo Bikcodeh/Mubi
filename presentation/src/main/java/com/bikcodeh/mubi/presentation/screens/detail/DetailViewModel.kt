@@ -8,8 +8,8 @@ import com.bikcodeh.mubi.domain.di.IoDispatcher
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.usecase.GetDetailTvShowUC
 import com.bikcodeh.mubi.domain.usecase.GetTvShowByIdLocalUC
-import com.bikcodeh.mubi.domain.usecase.UpdateTvShowUC
 import com.bikcodeh.mubi.domain.usecase.SetAsFavoriteUC
+import com.bikcodeh.mubi.domain.usecase.UpdateTvShowUC
 import com.bikcodeh.mubi.presentation.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,13 +18,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val getDetailTvShowUC: GetDetailTvShowUC,
     private val setAsFavoriteUC: SetAsFavoriteUC,
-    private val getTvShowByIdLocalUC: GetTvShowByIdLocalUC,
     private val updateTvShowUC: UpdateTvShowUC,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : BaseViewModel() {
@@ -40,8 +40,14 @@ class DetailViewModel @Inject constructor(
                 onSuccess = { tvShow ->
                     tvShow.category = category
                     tvShow.isFavorite = isFavorite
-                    updateTvShow(tvShow)
-                    getTvShowByIdLocal(tvShowId)
+                    withContext(dispatcher) { updateTvShow(tvShow) }
+                    _detailState.update {
+                        it.copy(
+                            isLoading = false,
+                            tvShow = tvShow,
+                            error = null
+                        )
+                    }
                 },
                 onError = { code, _ ->
                     val error = handleError(code.validateHttpErrorCode())
@@ -70,20 +76,6 @@ class DetailViewModel @Inject constructor(
     fun setIsFavorite(tvShowId: String, isFavorite: Boolean) {
         viewModelScope.launch(dispatcher) {
             setAsFavoriteUC(tvShowId = tvShowId, isFavorite = isFavorite)
-        }
-    }
-
-    private fun getTvShowByIdLocal(tvShowId: String) {
-        viewModelScope.launch(dispatcher) {
-            getTvShowByIdLocalUC(tvShowId)?.let { tvShow ->
-                _detailState.update {
-                    it.copy(
-                        isLoading = false,
-                        tvShow = tvShow,
-                        error = null
-                    )
-                }
-            }
         }
     }
 

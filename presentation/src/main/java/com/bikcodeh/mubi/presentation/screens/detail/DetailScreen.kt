@@ -33,44 +33,46 @@ fun DetailScreen(
     }
 
     val detailState by detailViewModel.detailState.collectAsStateWithLifecycle()
+
     val lazyColumnState = rememberLazyListState()
-    Scaffold(
-        topBar = {
-            DetailTopBar(title = detailState.tvShow?.name ?: "", onBack = onBack)
-        }
-    ) { paddingValues ->
-        if (detailState.isLoading) {
-            LoadingScreen(
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        detailState.error?.let {
-            ErrorScreen(
-                modifier = Modifier.fillMaxSize(),
-                messageId = it.errorMessage,
-                onTryAgain = {
-                    detailViewModel.getDetailById(
-                        tvShowId,
-                        category,
-                        isFavorite
-                    )
-                },
-                displayTryButton = it.displayTryAgainBtn
-            )
-        }
-        detailState.tvShow?.let { tvShow ->
-            DetailContent(
-                tvShow = tvShow, lazyColumnState = lazyColumnState, modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = paddingValues.calculateTopPadding())
-                    .background(color = MaterialTheme.colorScheme.backgroundColor),
-                setAsFavorite = {
-                    detailViewModel.setIsFavorite(
-                        isFavorite = it,
-                        tvShowId = tvShow.id
-                    )
-                }
-            )
+    if (detailState.isLoading) {
+        LoadingScreen(
+            modifier = Modifier.fillMaxSize()
+        )
+    } else {
+        Scaffold(
+            topBar = {
+                DetailTopBar(title = detailState.tvShow?.name ?: "", onBack = onBack)
+            }
+        ) { paddingValues ->
+            detailState.error?.let {
+                ErrorScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    messageId = it.errorMessage,
+                    onTryAgain = {
+                        detailViewModel.getDetailById(
+                            tvShowId,
+                            category,
+                            isFavorite
+                        )
+                    },
+                    displayTryButton = it.displayTryAgainBtn
+                )
+            }
+            detailState.tvShow?.let { tvShow ->
+                DetailContent(
+                    tvShow = tvShow, lazyColumnState = lazyColumnState, modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = paddingValues.calculateTopPadding())
+                        .background(color = MaterialTheme.colorScheme.backgroundColor),
+                    setAsFavorite = {
+                        detailViewModel.setIsFavorite(
+                            isFavorite = it,
+                            tvShowId = tvShow.id
+                        )
+                    }
+                )
+            }
         }
     }
 }
