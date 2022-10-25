@@ -13,6 +13,6 @@ data class TVShow(
     val voteAverage: Double,
     val voteCount: Int,
     var isFavorite: Boolean = false,
-    val category: String = "",
+    var category: String = "",
     val seasons: List<Season>? = null
 )

@@ -23,11 +23,13 @@ import com.bikcodeh.mubi.presentation.theme.backgroundColor
 @Composable
 fun DetailScreen(
     tvShowId: String,
+    category: String,
+    isFavorite: Boolean,
     onBack: () -> Unit,
     detailViewModel: DetailViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = tvShowId) {
-        detailViewModel.getDetailById(tvShowId)
+        detailViewModel.getDetailById(tvShowId, category, isFavorite)
     }
 
     val detailState by detailViewModel.detailState.collectAsStateWithLifecycle()
@@ -46,16 +48,28 @@ fun DetailScreen(
             ErrorScreen(
                 modifier = Modifier.fillMaxSize(),
                 messageId = it.errorMessage,
-                onTryAgain = { detailViewModel.getDetailById(tvShowId) },
+                onTryAgain = {
+                    detailViewModel.getDetailById(
+                        tvShowId,
+                        category,
+                        isFavorite
+                    )
+                },
                 displayTryButton = it.displayTryAgainBtn
             )
         }
-        detailState.tvShow?.let {
+        detailState.tvShow?.let { tvShow ->
             DetailContent(
-                tvShow = it, lazyColumnState = lazyColumnState, modifier = Modifier
+                tvShow = tvShow, lazyColumnState = lazyColumnState, modifier = Modifier
                     .fillMaxSize()
                     .padding(top = paddingValues.calculateTopPadding())
-                    .background(color = MaterialTheme.colorScheme.backgroundColor)
+                    .background(color = MaterialTheme.colorScheme.backgroundColor),
+                setAsFavorite = {
+                    detailViewModel.setIsFavorite(
+                        isFavorite = it,
+                        tvShowId = tvShow.id
+                    )
+                }
             )
         }
     }

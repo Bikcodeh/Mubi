@@ -6,10 +6,12 @@ sealed class Screens(val route: String) {
     object Login : Screens("login_screen")
     object Profile : Screens("profile_screen")
     object Search : Screens("search_screen")
-    object Detail : Screens("detail_screen/{tvShowId}") {
-        const val NAV_ARG_KEY = "tvShowId"
-        fun passTvShowId(tvShowId: String): String {
-            return "detail_screen/${tvShowId}"
+    object Detail : Screens("detail_screen/{tvShowId}/{category}/{isFavorite}") {
+        const val NAV_ARG_KEY_ID = "tvShowId"
+        const val NAV_ARG_KEY_CATEGORY = "category"
+        const val NAV_ARG_KEY_FAVORITE = "isFavorite"
+        fun passTvShowId(tvShowId: String, category: String, isFavorite: Boolean): String {
+            return "detail_screen/$tvShowId/$category/$isFavorite"
         }
     }
 }

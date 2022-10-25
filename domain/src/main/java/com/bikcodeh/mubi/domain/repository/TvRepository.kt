@@ -12,4 +12,7 @@ interface TvRepository {
     fun searchTvShows(query: String): Flow<List<TVShow>>
     suspend fun searchTvShowsRemote(query: String): Result<List<TVShow>>
     suspend fun getDetailTvShow(tvShowId: String): Result<TVShow>
+    suspend fun setAsFavorite(isFavorite: Boolean, tvShowId: String)
+    suspend fun updateTvShow(tvShow: TVShow)
+    suspend fun getTvShowByIdLocal(tvShowId: String): TVShow?
 }

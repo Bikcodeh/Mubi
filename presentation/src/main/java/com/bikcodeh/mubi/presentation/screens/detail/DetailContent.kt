@@ -9,8 +9,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -22,8 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.bikcodeh.mubi.domain.model.Season
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.presentation.R
@@ -36,7 +43,8 @@ import com.bikcodeh.mubi.presentation.util.Constants
 fun DetailContent(
     tvShow: TVShow,
     lazyColumnState: LazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    setAsFavorite: (isFavorite: Boolean) -> Unit
 ) {
     var scrolledY = 0f
     var previousOffset = 0
@@ -58,7 +66,11 @@ fun DetailContent(
             )
         }
         item {
-            DetailSummary(overview = tvShow.overview)
+            DetailSummary(
+                overview = tvShow.overview,
+                isFavorite = tvShow.isFavorite,
+                setAsFavorite = setAsFavorite
+            )
         }
         tvShow.seasons?.let {
             items(it) { season ->
@@ -137,17 +149,43 @@ fun DetailHeader(
 
 @Composable
 fun DetailSummary(
-    overview: String
+    overview: String,
+    isFavorite: Boolean,
+    setAsFavorite: (isFavorite: Boolean) -> Unit
 ) {
+    var checked by rememberSaveable { mutableStateOf(isFavorite) }
+
     val modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = COMMON_PADDING)
-    Text(
-        text = stringResource(id = R.string.summary),
-        color = VeryLightBlue,
-        style = MaterialTheme.typography.titleLarge,
+    ConstraintLayout(
         modifier = modifier.padding(top = PADDING_24)
-    )
+    ) {
+        val (summaryTitle, favoriteButton) = createRefs()
+        Text(
+            text = stringResource(id = R.string.summary),
+            color = VeryLightBlue,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .constrainAs(summaryTitle) {
+                    linkTo(parent.start, favoriteButton.start)
+                    linkTo(parent.top, parent.bottom)
+                    width = Dimension.fillToConstraints
+                }
+        )
+        IconButton(
+            onClick = {
+                checked = !checked
+                setAsFavorite(checked)
+            },
+            modifier = Modifier.constrainAs(favoriteButton) {
+                end.linkTo(parent.end)
+                linkTo(parent.top, parent.bottom)
+            }) {
+            val icon = if (checked) Icons.Default.Favorite else Icons.Default.FavoriteBorder
+            Icon(icon, contentDescription = null, tint = Red)
+        }
+    }
     Text(
         text = overview,
         modifier = modifier.padding(top = PADDING_8, bottom = COMMON_PADDING),
@@ -296,7 +334,8 @@ fun DetailContentPreview() {
                 )
             )
         ),
-        lazyColumnState = rememberLazyListState()
+        lazyColumnState = rememberLazyListState(),
+        setAsFavorite = {}
     )
 }
 
@@ -342,6 +381,7 @@ fun DetailContentPreviewDark() {
                 )
             )
         ),
-        lazyColumnState = rememberLazyListState()
+        lazyColumnState = rememberLazyListState(),
+        setAsFavorite = {}
     )
 }

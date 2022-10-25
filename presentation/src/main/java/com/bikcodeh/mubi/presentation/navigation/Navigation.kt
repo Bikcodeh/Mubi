@@ -44,7 +44,13 @@ fun MubiNavigation(
         composable(route = Screens.Home.route) {
             HomeScreen(
                 onClickItem = {
-                    navController.navigate(Screens.Detail.passTvShowId(tvShowId = it.id))
+                    navController.navigate(
+                        Screens.Detail.passTvShowId(
+                            tvShowId = it.id,
+                            category = it.category,
+                            isFavorite = it.isFavorite
+                        )
+                    )
                 },
                 navigateToProfile = {
                     navController.navigate(Screens.Profile.route)
@@ -78,14 +84,22 @@ fun MubiNavigation(
         }
         composable(
             route = Screens.Detail.route,
-            arguments = listOf(navArgument(Screens.Detail.NAV_ARG_KEY) {
+            arguments = listOf(navArgument(Screens.Detail.NAV_ARG_KEY_ID) {
                 type = NavType.StringType
+            }, navArgument(Screens.Detail.NAV_ARG_KEY_CATEGORY) {
+                type = NavType.StringType
+            }, navArgument(Screens.Detail.NAV_ARG_KEY_FAVORITE) {
+                type = NavType.BoolType
             })
         ) { backStackEntry ->
-            val tvShowId = backStackEntry.arguments?.getString(Screens.Detail.NAV_ARG_KEY)
+            val tvShowId = backStackEntry.arguments?.getString(Screens.Detail.NAV_ARG_KEY_ID)
+            val category = backStackEntry.arguments?.getString(Screens.Detail.NAV_ARG_KEY_CATEGORY)
+            val isFavorite = backStackEntry.arguments?.getBoolean(Screens.Detail.NAV_ARG_KEY_FAVORITE, false)
             tvShowId?.let {
                 DetailScreen(
                     tvShowId = tvShowId,
+                    category = category ?: String(),
+                    isFavorite = isFavorite!!,
                     onBack = { navController.popBackStack() }
                 )
             }
