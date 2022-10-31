@@ -1,6 +1,7 @@
 package com.bikcodeh.mubi.presentation.components
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarHalf
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.bikcodeh.mubi.presentation.theme.BallBlue
 import com.bikcodeh.mubi.presentation.util.Constants
 import kotlin.math.ceil
@@ -26,17 +28,24 @@ fun RatingBar(
     val filledStars = floor(voteAverage).toInt()
     val unfilledStars = (stars - ceil(voteAverage)).toInt()
     val halfStar = !(voteAverage.rem(1).equals(0.0))
+    val modifierStar = Modifier.size(16.dp)
 
     Row(modifier = modifier) {
         repeat(filledStars) {
-            Icon(imageVector = Icons.Outlined.Star, contentDescription = null, tint = starsColor)
+            Icon(
+                imageVector = Icons.Outlined.Star,
+                contentDescription = null,
+                tint = starsColor,
+                modifier = modifierStar
+            )
         }
 
         if (halfStar) {
             Icon(
                 imageVector = Icons.Outlined.StarHalf,
                 contentDescription = null,
-                tint = starsColor
+                tint = starsColor,
+                modifier = modifierStar
             )
         }
 
@@ -44,7 +53,8 @@ fun RatingBar(
             Icon(
                 imageVector = Icons.Outlined.StarOutline,
                 contentDescription = null,
-                tint = starsColor
+                tint = starsColor,
+                modifier = modifierStar
             )
         }
     }

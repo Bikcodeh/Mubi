@@ -15,4 +15,5 @@ interface TvRepository {
     suspend fun setAsFavorite(isFavorite: Boolean, tvShowId: String)
     suspend fun updateTvShow(tvShow: TVShow)
     suspend fun getTvShowByIdLocal(tvShowId: String): TVShow?
+    suspend fun getFavoritesTvShows(): List<TVShow>
 }

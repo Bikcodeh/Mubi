@@ -35,4 +35,7 @@ interface TvShowDao {
 
     @Query("SELECT * FROM tvshow WHERE id = :tvShowId")
     suspend fun getTvShowById(tvShowId: String): TvShowEntity
+
+    @Query("SELECT * FROM tvshow WHERE isFavorite = 1")
+    suspend fun getFavorites(): List<TvShowEntity>
 }
