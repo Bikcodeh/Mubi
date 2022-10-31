@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -28,4 +29,13 @@ interface TvShowDao {
 
     @Query("SELECT * FROM tvshow WHERE name LIKE :query")
     fun searchTvShows(query: String): Flow<List<TvShowEntity>>
+
+    @Update
+    suspend fun updateTvShow(tvShowEntity: TvShowEntity)
+
+    @Query("SELECT * FROM tvshow WHERE id = :tvShowId")
+    suspend fun getTvShowById(tvShowId: String): TvShowEntity
+
+    @Query("SELECT * FROM tvshow WHERE isFavorite = 1")
+    suspend fun getFavorites(): List<TvShowEntity>
 }

@@ -1,8 +1,10 @@
 package com.bikcodeh.mubi.data.remote.service
 
 import com.bikcodeh.mubi.data.remote.response.TVResponseDTO
+import com.bikcodeh.mubi.data.remote.response.TVShowDTO
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TVApi {
@@ -31,4 +33,9 @@ interface TVApi {
     suspend fun searchTvShow(
         @Query("query") query: String
     ): Response<TVResponseDTO>
+
+    @GET("{tv_id}")
+    suspend fun getDetailTvShow(
+        @Path("tv_id") tvShowId: String
+    ): Response<TVShowDTO>
 }

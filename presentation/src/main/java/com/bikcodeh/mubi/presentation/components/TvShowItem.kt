@@ -1,20 +1,21 @@
 package com.bikcodeh.mubi.presentation.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.presentation.screens.home.HomeDefaults
 import com.bikcodeh.mubi.presentation.theme.COMMON_PADDING
-import com.bikcodeh.mubi.presentation.theme.MEDIUM_PADDING
+import com.bikcodeh.mubi.presentation.theme.PADDING_8
 import com.bikcodeh.mubi.presentation.theme.backgroundCardColor
 import com.bikcodeh.mubi.presentation.theme.textColor
 import com.bikcodeh.mubi.presentation.util.Constants
@@ -31,9 +32,13 @@ fun TvShowItem(tvShow: TVShow, onClickItem: (tvShow: TVShow) -> Unit) {
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.backgroundCardColor
         ),
-        onClick = { onClickItem(tvShow) }
+        onClick = { onClickItem(tvShow) },
+        modifier = Modifier
+            .width(156.dp)
+            .height(232.dp)
     ) {
         Column(
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -61,21 +66,13 @@ fun TvShowItem(tvShow: TVShow, onClickItem: (tvShow: TVShow) -> Unit) {
                 color = MaterialTheme.colorScheme.textColor,
                 style = MaterialTheme.typography.titleSmall
             )
-            ConstraintLayout(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        start = COMMON_PADDING,
-                        end = COMMON_PADDING,
-                        bottom = COMMON_PADDING
-                    )
+                    .padding(start = COMMON_PADDING, end = COMMON_PADDING, bottom = COMMON_PADDING),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                val (rating, ratingValue) = createRefs()
                 RatingBar(
-                    modifier = Modifier.constrainAs(rating) {
-                        start.linkTo(parent.start)
-                        linkTo(parent.top, parent.bottom)
-                    },
                     rating = tvShow.voteAverage,
                     stars = 5
                 )
@@ -87,10 +84,8 @@ fun TvShowItem(tvShow: TVShow, onClickItem: (tvShow: TVShow) -> Unit) {
                     },
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.textColor,
-                    modifier = Modifier.constrainAs(ratingValue) {
-                        linkTo(rating.top, rating.bottom)
-                        start.linkTo(rating.end, margin = MEDIUM_PADDING)
-                    })
+                    modifier = Modifier.padding(start = PADDING_8)
+                )
             }
         }
     }
@@ -113,7 +108,8 @@ fun TvItemPreview() {
             voteAverage = 4.0,
             voteCount = 0,
             isFavorite = false,
-            category = ""
+            category = "",
+            emptyList()
         ),
         onClickItem = {}
     )
@@ -136,7 +132,8 @@ fun TvItemPreviewDark() {
             voteAverage = 4.0,
             voteCount = 0,
             isFavorite = false,
-            category = ""
+            category = "",
+            seasons = emptyList()
         ),
         onClickItem = {}
     )
