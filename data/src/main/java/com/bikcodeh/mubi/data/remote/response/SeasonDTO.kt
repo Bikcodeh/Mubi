@@ -9,10 +9,19 @@ data class SeasonDTO(
     @Json(name = "poster_path")
     val posterPath: String? = "",
     @Json(name = "episode_count")
-    val totalEpisodes: Int,
-    val overview: String
+    val totalEpisodes: Int?,
+    @Json(name = "season_number")
+    val seasonNumber: Int,
+    val overview: String,
+    val episodes: List<EpisodeDTO>? = null
 ) {
     fun toDomain(): Season = Season(
-        id, name, posterPath, totalEpisodes, overview
+        id,
+        name,
+        posterPath,
+        totalEpisodes,
+        overview,
+        seasonNumber,
+        episodes?.map { it.toDomain() }
     )
 }

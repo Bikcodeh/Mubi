@@ -14,4 +14,11 @@ sealed class Screens(val route: String) {
             return "detail_screen/$tvShowId/$category/$isFavorite"
         }
     }
+    object Season: Screens("season_screen/{tvShowId}/{seasonNumber}") {
+        const val NAV_ARG_KEY_ID = "tvShowId"
+        const val NAV_ARG_SEASON_KEY_ID = "seasonNumber"
+        fun passArgs(tvShowId: String, seasonNumber: Int): String {
+            return "season_screen/$tvShowId/$seasonNumber"
+        }
+    }
 }

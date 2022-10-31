@@ -1,5 +1,6 @@
 package com.bikcodeh.mubi.data.remote.service
 
+import com.bikcodeh.mubi.data.remote.response.SeasonDTO
 import com.bikcodeh.mubi.data.remote.response.TVResponseDTO
 import com.bikcodeh.mubi.data.remote.response.TVShowDTO
 import retrofit2.Response
@@ -38,4 +39,10 @@ interface TVApi {
     suspend fun getDetailTvShow(
         @Path("tv_id") tvShowId: String
     ): Response<TVShowDTO>
+
+    @GET("{tv_id}/season/{season_number}")
+    suspend fun getDetailSeason(
+        @Path("tv_id") tvShowId: String,
+        @Path("season_number") seasonNumber: Int
+    ): Response<SeasonDTO>
 }

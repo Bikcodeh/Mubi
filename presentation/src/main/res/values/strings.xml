@@ -23,4 +23,6 @@
         <item quantity="one">%1$d Episode</item>
         <item quantity="other">%1$d Episodes</item>
     </plurals>
+    <string name="episode_number">Episode %1$d</string>
+    <string name="season_number">Season %1$s</string>
 </resources>
