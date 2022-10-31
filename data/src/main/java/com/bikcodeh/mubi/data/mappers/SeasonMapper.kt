@@ -8,7 +8,7 @@ import javax.inject.Inject
 class SeasonMapper @Inject constructor(): Mapper<Season, SeasonEntity> {
     override fun map(input: Season): SeasonEntity {
         return with(input) {
-            SeasonEntity(id, name, posterPath, totalEpisodes, overview)
+            SeasonEntity(id, name, posterPath, totalEpisodes, overview, seasonNumber)
         }
     }
 }

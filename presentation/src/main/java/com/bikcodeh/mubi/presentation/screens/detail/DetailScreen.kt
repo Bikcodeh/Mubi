@@ -26,7 +26,8 @@ fun DetailScreen(
     category: String,
     isFavorite: Boolean,
     onBack: () -> Unit,
-    detailViewModel: DetailViewModel = hiltViewModel()
+    detailViewModel: DetailViewModel = hiltViewModel(),
+    onSeasonClick: (tvShowId: String, seasonNumber: Int) -> Unit
 ) {
     LaunchedEffect(key1 = tvShowId) {
         detailViewModel.getDetailById(tvShowId, category, isFavorite)
@@ -70,7 +71,8 @@ fun DetailScreen(
                             tvShowId = tvShow.id
                         )
                     },
-                    onBack = onBack
+                    onBack = onBack,
+                    onSeasonClick = onSeasonClick
                 )
             }
         }

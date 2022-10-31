@@ -46,7 +46,7 @@ fun ProfileContent(
             .background(color = MaterialTheme.colorScheme.backgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        GenericTopBar(onBack = onBack, titleResId = R.string.profile_title)
+        GenericTopBar(onBack = onBack, titleResId = R.string.profile_title, titleTop = null)
         ProfilePicture()
 
         TextFullCenter(

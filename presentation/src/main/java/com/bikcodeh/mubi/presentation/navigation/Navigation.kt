@@ -15,6 +15,7 @@ import com.bikcodeh.mubi.presentation.screens.home.HomeScreen
 import com.bikcodeh.mubi.presentation.screens.login.LoginScreen
 import com.bikcodeh.mubi.presentation.screens.profile.ProfileScreen
 import com.bikcodeh.mubi.presentation.screens.search.SearchScreen
+import com.bikcodeh.mubi.presentation.screens.season.SeasonScreen
 import com.bikcodeh.mubi.presentation.screens.splash.SplashScreen
 
 @ExperimentalLifecycleComposeApi
@@ -94,22 +95,38 @@ fun MubiNavigation(
         ) { backStackEntry ->
             val tvShowId = backStackEntry.arguments?.getString(Screens.Detail.NAV_ARG_KEY_ID)
             val category = backStackEntry.arguments?.getString(Screens.Detail.NAV_ARG_KEY_CATEGORY)
-            val isFavorite = backStackEntry.arguments?.getBoolean(Screens.Detail.NAV_ARG_KEY_FAVORITE, false)
+            val isFavorite =
+                backStackEntry.arguments?.getBoolean(Screens.Detail.NAV_ARG_KEY_FAVORITE, false)
             tvShowId?.let {
                 DetailScreen(
                     tvShowId = tvShowId,
                     category = category ?: String(),
                     isFavorite = isFavorite!!,
-                    onBack = { navController.popBackStack() }
+                    onBack = { navController.popBackStack() },
+                    onSeasonClick = { tvShowId, seasonNumber ->
+                        navController.navigate(Screens.Season.passArgs(tvShowId, seasonNumber))
+                    }
+                )
+            }
+        }
+        composable(
+            route = Screens.Season.route,
+            arguments = listOf(navArgument(Screens.Season.NAV_ARG_KEY_ID) {
+                type = NavType.StringType
+            }, navArgument(Screens.Season.NAV_ARG_SEASON_KEY_ID) {
+                type = NavType.IntType
+            })
+        ) { backStackEntry ->
+            val tvShowId = backStackEntry.arguments?.getString(Screens.Season.NAV_ARG_KEY_ID)
+            val seasonNumber =
+                backStackEntry.arguments?.getInt(Screens.Season.NAV_ARG_SEASON_KEY_ID)
+            tvShowId?.let {
+                SeasonScreen(
+                    onBack = { navController.popBackStack() },
+                    tvShowId = tvShowId,
+                    seasonNumber = seasonNumber ?: -1
                 )
             }
         }
     }
-}
-
-fun NavHostController.navigateAndClean(route: String) {
-    navigate(route = route) {
-        popUpTo(route = route) { inclusive = true }
-    }
-    graph.setStartDestination(route)
 }

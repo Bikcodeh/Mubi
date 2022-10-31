@@ -40,7 +40,7 @@ interface TVApi {
         @Path("tv_id") tvShowId: String
     ): Response<TVShowDTO>
 
-    @GET("tv/{tv_id}/season/{season_number}")
+    @GET("{tv_id}/season/{season_number}")
     suspend fun getDetailSeason(
         @Path("tv_id") tvShowId: String,
         @Path("season_number") seasonNumber: Int
