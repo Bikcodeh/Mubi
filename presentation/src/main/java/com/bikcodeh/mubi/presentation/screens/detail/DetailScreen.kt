@@ -4,12 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -33,17 +33,14 @@ fun DetailScreen(
     }
 
     val detailState by detailViewModel.detailState.collectAsStateWithLifecycle()
+    val scrollState = rememberScrollState()
 
-    val lazyColumnState = rememberLazyListState()
     if (detailState.isLoading) {
         LoadingScreen(
             modifier = Modifier.fillMaxSize()
         )
     } else {
         Scaffold(
-            topBar = {
-                DetailTopBar(title = detailState.tvShow?.name ?: "", onBack = onBack)
-            }
         ) { paddingValues ->
             detailState.error?.let {
                 ErrorScreen(
@@ -61,7 +58,9 @@ fun DetailScreen(
             }
             detailState.tvShow?.let { tvShow ->
                 DetailContent(
-                    tvShow = tvShow, lazyColumnState = lazyColumnState, modifier = Modifier
+                    tvShow = tvShow,
+                    scrollState = scrollState,
+                    modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())
                         .background(color = MaterialTheme.colorScheme.backgroundColor),
@@ -70,7 +69,8 @@ fun DetailScreen(
                             isFavorite = it,
                             tvShowId = tvShow.id
                         )
-                    }
+                    },
+                    onBack = onBack
                 )
             }
         }

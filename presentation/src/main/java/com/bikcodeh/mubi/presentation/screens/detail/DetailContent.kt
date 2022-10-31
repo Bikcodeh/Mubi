@@ -3,13 +3,16 @@
 package com.bikcodeh.mubi.presentation.screens.detail
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
@@ -22,13 +25,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bikcodeh.mubi.domain.model.Season
@@ -38,42 +41,58 @@ import com.bikcodeh.mubi.presentation.components.CoilImage
 import com.bikcodeh.mubi.presentation.components.RatingBar
 import com.bikcodeh.mubi.presentation.theme.*
 import com.bikcodeh.mubi.presentation.util.Constants
+import java.math.RoundingMode
+
+const val PERCENT_TO_APPEAR_TOP_BAR = 60.0
 
 @Composable
 fun DetailContent(
     tvShow: TVShow,
-    lazyColumnState: LazyListState,
+    scrollState: ScrollState,
     modifier: Modifier = Modifier,
-    setAsFavorite: (isFavorite: Boolean) -> Unit
+    setAsFavorite: (isFavorite: Boolean) -> Unit,
+    onBack: () -> Unit
 ) {
-    var scrolledY = 0f
-    var previousOffset = 0
+    val maxValue = scrollState.maxValue.toFloat()
+    val maxValueSafe = if (maxValue == 0.0f) 1.0f else maxValue
+    val percent = (scrollState.value.toFloat() / maxValueSafe) * 100f
+    val rounded = percent.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
+    var showTopBar by rememberSaveable { mutableStateOf(true) }
 
-    LazyColumn(
-        state = lazyColumnState,
-        modifier = modifier
-    ) {
-        item {
+    if (rounded >= PERCENT_TO_APPEAR_TOP_BAR) {
+        showTopBar = true
+    }
+    if (rounded < PERCENT_TO_APPEAR_TOP_BAR) {
+        showTopBar = false
+    }
+
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+        ) {
             DetailHeader(
                 titleTvShow = tvShow.name,
                 ratingTvShow = tvShow.voteAverage,
                 imageUrl = "${Constants.BASE_URL_IMAGES_POSTER}${tvShow.posterPath}",
-                modifier = Modifier.graphicsLayer {
-                    scrolledY += lazyColumnState.firstVisibleItemScrollOffset - previousOffset
-                    translationY = scrolledY * 0.5f
-                    previousOffset = lazyColumnState.firstVisibleItemScrollOffset
-                }
+                onBack = onBack
             )
-        }
-        item {
             DetailSummary(
                 overview = tvShow.overview,
                 isFavorite = tvShow.isFavorite,
                 setAsFavorite = setAsFavorite
             )
+            tvShow.seasons.forEach { season ->
+                DetailSeasonItem(season = season)
+            }
         }
-        items(tvShow.seasons) { season ->
-            DetailSeasonItem(season = season)
+        AnimatedVisibility(
+            visible = showTopBar,
+            enter = slideInVertically(),
+            exit = slideOutVertically()
+        ) {
+            DetailTopBar(title = tvShow.name, onBack = onBack)
         }
     }
 }
@@ -83,6 +102,7 @@ fun DetailHeader(
     titleTvShow: String,
     ratingTvShow: Double,
     imageUrl: String,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
@@ -90,6 +110,7 @@ fun DetailHeader(
             .fillMaxWidth()
             .height(HEIGHT_DETAIL_HEADER)
     ) {
+
         val brush = Brush.verticalGradient(
             listOf(
                 Color.Black.copy(alpha = 0.2f),
@@ -99,7 +120,8 @@ fun DetailHeader(
             startY = 100.0f,
             endY = 0.0f
         )
-        val (poster, title, rating, shadow) = createRefs()
+        val (poster, title, rating, shadow, back) = createRefs()
+
         CoilImage(
             imageUrl = imageUrl,
             imageDescriptionResId = null,
@@ -112,6 +134,17 @@ fun DetailHeader(
                 },
             contentScale = ContentScale.FillBounds
         )
+        IconButton(onClick = onBack, modifier = Modifier
+            .constrainAs(back) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            }
+            .zIndex(10f)) {
+            Icon(
+                Icons.Default.ArrowBack, contentDescription = stringResource(id = R.string.back),
+                tint = GhostWhite
+            )
+        }
         Box(modifier = Modifier
             .fillMaxHeight(0.7f)
             .fillMaxWidth()
@@ -286,7 +319,8 @@ fun DetailHeaderPreview() {
     DetailHeader(
         titleTvShow = "Eternal Sunshine of the Spotless Mind",
         ratingTvShow = 3.7,
-        imageUrl = ""
+        imageUrl = "",
+        onBack = {}
     )
 }
 
@@ -332,8 +366,9 @@ fun DetailContentPreview() {
                 )
             )
         ),
-        lazyColumnState = rememberLazyListState(),
-        setAsFavorite = {}
+        scrollState = rememberScrollState(),
+        setAsFavorite = {},
+        onBack = {}
     )
 }
 
@@ -379,7 +414,8 @@ fun DetailContentPreviewDark() {
                 )
             )
         ),
-        lazyColumnState = rememberLazyListState(),
-        setAsFavorite = {}
+        scrollState = rememberScrollState(),
+        setAsFavorite = {},
+        onBack = {}
     )
 }
