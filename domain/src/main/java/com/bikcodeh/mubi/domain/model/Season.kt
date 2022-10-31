@@ -5,5 +5,6 @@ data class Season(
     val name: String,
     val posterPath: String? = "",
     val totalEpisodes: Int,
-    val overview: String
+    val overview: String,
+    val episodes: List<Episode>? = null
 )

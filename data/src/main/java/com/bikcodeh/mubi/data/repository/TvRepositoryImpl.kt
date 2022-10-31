@@ -14,6 +14,7 @@ import com.bikcodeh.mubi.domain.common.Result
 import com.bikcodeh.mubi.domain.common.fold
 import com.bikcodeh.mubi.domain.common.makeSafeRequest
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
+import com.bikcodeh.mubi.domain.model.Season
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
 import com.bikcodeh.mubi.domain.repository.TvRepository
@@ -98,6 +99,21 @@ class TvRepositoryImpl @Inject constructor(
 
     override suspend fun getFavoritesTvShows(): List<TVShow> {
         return tvShowDao.getFavorites().map { tvShowEntity ->  tvShowMapperEntity.map(tvShowEntity) }
+    }
+
+    override suspend fun getDetailSeason(tvShowId: String, seasonNumber: Int): Result<Season> {
+        val response = makeSafeRequest { tvApi.getDetailSeason(tvShowId, seasonNumber) }
+        return response.fold(
+            onSuccess = {
+                Result.Success(it.toDomain())
+            },
+            onException = {
+                Result.Exception(it)
+            },
+            onError = { code, message ->
+                Result.Error(code, message)
+            }
+        )
     }
 
     companion object {
