@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("jacoco")
+    id("kotlin-parcelize")
 }
 android {
     compileSdk = Config.AndroidSdk.compile
@@ -41,6 +42,7 @@ dependencies {
     implementation(Config.Dependencies.Jetpack.paging)
     implementation(Config.Dependencies.Jetpack.roomPaging)
     implementation(Config.Dependencies.dataStore)
+    implementation(Config.Dependencies.gson)
     /** Dagger */
     implementation(Config.Dependencies.DaggerHilt.hiltAndroid)
     kapt(Config.Dependencies.DaggerHilt.hiltCompiler)

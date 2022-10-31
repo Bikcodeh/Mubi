@@ -8,11 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -26,6 +27,7 @@ import com.bikcodeh.mubi.presentation.screens.home.components.HomeTopBar
 import com.bikcodeh.mubi.presentation.theme.backgroundColor
 import com.bikcodeh.mubi.presentation.util.ErrorLoadState
 
+@ExperimentalLifecycleComposeApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -40,7 +42,8 @@ fun HomeScreen(
         homeViewModel.searchTvShows(tvShowType = selectedCTvShowType.value)
     }
 
-    val tvShows = homeViewModel.tvShows.collectAsState().value.collectAsLazyPagingItems()
+    val tvShows =
+        homeViewModel.tvShows.collectAsStateWithLifecycle().value.collectAsLazyPagingItems()
     val result = handlePagingResult(tvShows = tvShows)
 
     Scaffold(

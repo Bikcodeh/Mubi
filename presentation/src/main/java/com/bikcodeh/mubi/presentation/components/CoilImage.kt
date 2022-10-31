@@ -43,7 +43,6 @@ fun CoilImage(
             .memoryCachePolicy(CachePolicy.ENABLED)
             .networkCachePolicy(CachePolicy.ENABLED)
             .memoryCacheKey(imageUrl)
-            .crossfade(true)
             .build(),
         placeholder = painterResource(R.drawable.ic_image),
         error = painterResource(R.drawable.ic_broken_image),

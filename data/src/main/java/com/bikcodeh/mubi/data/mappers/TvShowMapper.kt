@@ -1,11 +1,13 @@
 package com.bikcodeh.mubi.data.mappers
 
-import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import com.bikcodeh.mubi.domain.common.Mapper
+import com.bikcodeh.mubi.domain.entity.TvShowEntity
 import com.bikcodeh.mubi.domain.model.TVShow
 import javax.inject.Inject
 
-class TvShowMapper @Inject constructor() : Mapper<TVShow, TvShowEntity> {
+class TvShowMapper @Inject constructor(
+    private val seasonMapper: SeasonMapper
+) : Mapper<TVShow, TvShowEntity> {
 
     override fun map(input: TVShow): TvShowEntity {
         return with(input) {
@@ -22,7 +24,8 @@ class TvShowMapper @Inject constructor() : Mapper<TVShow, TvShowEntity> {
                 voteAverage,
                 voteCount,
                 isFavorite,
-                category
+                category,
+                seasons.map { season -> seasonMapper.map(season) }
             )
         }
     }

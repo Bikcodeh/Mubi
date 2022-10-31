@@ -34,6 +34,7 @@ import com.bikcodeh.mubi.presentation.theme.backgroundColor
 import com.bikcodeh.mubi.presentation.theme.textColor
 import com.bikcodeh.mubi.presentation.util.ErrorLoadState
 import com.bikcodeh.mubi.presentation.util.extension.items
+import com.bikcodeh.mubi.presentation.util.extension.rememberCustomLazyGridState
 
 @Composable
 fun HomeContent(
@@ -57,7 +58,8 @@ fun HomeContent(
                 columns = GridCells.Fixed(COLUMNS_ITEM),
                 contentPadding = PaddingValues(PADDING_ITEM),
                 horizontalArrangement = Arrangement.spacedBy(SPACING_ITEM),
-                verticalArrangement = Arrangement.spacedBy(SPACING_ITEM)
+                verticalArrangement = Arrangement.spacedBy(SPACING_ITEM),
+                state = tvShows.rememberCustomLazyGridState()
             ) {
                 items(
                     items = tvShows,

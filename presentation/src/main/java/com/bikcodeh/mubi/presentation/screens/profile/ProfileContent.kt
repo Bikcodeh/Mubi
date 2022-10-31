@@ -188,7 +188,8 @@ fun ProfileContentPreview() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             ),
             TVShow(
                 backdropPath = "",
@@ -203,7 +204,8 @@ fun ProfileContentPreview() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             ),
             TVShow(
                 backdropPath = "",
@@ -218,7 +220,8 @@ fun ProfileContentPreview() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             ),
             TVShow(
                 backdropPath = "",
@@ -233,7 +236,8 @@ fun ProfileContentPreview() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             )
         ),
         onLogOut = {},
@@ -259,7 +263,8 @@ fun ProfileContentPreviewDark() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             ),
             TVShow(
                 backdropPath = "",
@@ -274,7 +279,8 @@ fun ProfileContentPreviewDark() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             ),
             TVShow(
                 backdropPath = "",
@@ -289,7 +295,8 @@ fun ProfileContentPreviewDark() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             ),
             TVShow(
                 backdropPath = "",
@@ -304,7 +311,8 @@ fun ProfileContentPreviewDark() {
                 voteAverage = 4.0,
                 voteCount = 0,
                 isFavorite = false,
-                category = ""
+                category = "",
+                seasons = emptyList()
             )
         ),
         onLogOut = {},

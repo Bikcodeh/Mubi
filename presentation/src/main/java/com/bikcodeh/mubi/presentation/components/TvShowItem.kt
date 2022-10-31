@@ -113,7 +113,8 @@ fun TvItemPreview() {
             voteAverage = 4.0,
             voteCount = 0,
             isFavorite = false,
-            category = ""
+            category = "",
+            emptyList()
         ),
         onClickItem = {}
     )
@@ -136,7 +137,8 @@ fun TvItemPreviewDark() {
             voteAverage = 4.0,
             voteCount = 0,
             isFavorite = false,
-            category = ""
+            category = "",
+            seasons = emptyList()
         ),
         onClickItem = {}
     )

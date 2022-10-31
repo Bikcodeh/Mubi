@@ -69,6 +69,33 @@ class TvRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getDetailTvShow(tvShowId: String): Result<TVShow> {
+        val response = makeSafeRequest { tvApi.getDetailTvShow(tvShowId) }
+        return response.fold(
+            onSuccess = {
+                Result.Success(it.toDomain())
+            },
+            onError = { code, message ->
+                Result.Error(code, message)
+            },
+            onException = {
+                Result.Exception(it)
+            }
+        )
+    }
+
+    override suspend fun setAsFavorite(isFavorite: Boolean, tvShowId: String) {
+        tvShowDao.setIsFavorite(tvShowId = tvShowId, isFavorite = isFavorite)
+    }
+
+    override suspend fun updateTvShow(tvShow: TVShow) {
+        tvShowDao.updateTvShow(tvShowMapper.map(tvShow))
+    }
+
+    override suspend fun getTvShowByIdLocal(tvShowId: String): TVShow {
+        return tvShowMapperEntity.map(tvShowDao.getTvShowById(tvShowId))
+    }
+
     companion object {
         const val NETWORK_PAGE_SIZE = 10
     }

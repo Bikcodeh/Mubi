@@ -17,11 +17,12 @@ data class TVShowDTO(
     val overview: String,
     val popularity: Double,
     @Json(name = "poster_path")
-    val posterPath: String?,
+    val posterPath: String? = null,
     @Json(name = "vote_average")
     val voteAverage: Double,
     @Json(name = "vote_count")
-    val voteCount: Int
+    val voteCount: Int,
+    val seasons: List<SeasonDTO>? = null
 ) {
     fun toDomain(category: String = ""): TVShow = TVShow(
         backdropPath ?: "",
@@ -36,6 +37,7 @@ data class TVShowDTO(
         voteAverage,
         voteCount,
         false,
-        category
+        category,
+        seasons?.map { it.toDomain() }.orEmpty()
     )
 }
