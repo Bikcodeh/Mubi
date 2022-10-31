@@ -8,25 +8,33 @@ import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bikcodeh.mubi.presentation.R
-import com.bikcodeh.mubi.presentation.theme.DEFAULT_HEIGHT_TOP_BAR
-import com.bikcodeh.mubi.presentation.theme.GhostWhite
-import com.bikcodeh.mubi.presentation.theme.PADDING_32
-import com.bikcodeh.mubi.presentation.theme.VeryLightBlue
+import com.bikcodeh.mubi.presentation.theme.*
 
 @Composable
 fun GenericTopBar(
     onBack: () -> Unit,
-    @StringRes titleResId: Int
+    @StringRes titleResId: Int?,
+    titleTop: String?
 ) {
+    val titleTopBar = if (titleResId != null) {
+        stringResource(id = titleResId)
+    } else {
+        titleTop
+    }
     Surface(
         color = VeryLightBlue,
         modifier = Modifier
             .fillMaxWidth()
             .height(DEFAULT_HEIGHT_TOP_BAR)
+            .shadow(90.dp)
+            .zIndex(1f)
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -42,7 +50,7 @@ fun GenericTopBar(
                 }
             )
             Text(
-                text = stringResource(id = titleResId),
+                text = titleTopBar ?: String(),
                 color = GhostWhite,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.constrainAs(title) {
@@ -57,5 +65,9 @@ fun GenericTopBar(
 @Preview
 @Composable
 fun GenericTopBarPreview() {
-    GenericTopBar(onBack = {}, titleResId = R.string.mubi_title)
+    GenericTopBar(
+        onBack = {},
+        titleResId = R.string.mubi_title,
+        titleTop = null
+    )
 }

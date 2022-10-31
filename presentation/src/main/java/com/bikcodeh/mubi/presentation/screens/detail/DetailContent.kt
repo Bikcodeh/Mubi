@@ -51,7 +51,8 @@ fun DetailContent(
     scrollState: ScrollState,
     modifier: Modifier = Modifier,
     setAsFavorite: (isFavorite: Boolean) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onSeasonClick: (tvShowId: String, seasonNumber: Int) -> Unit
 ) {
     val maxValue = scrollState.maxValue.toFloat()
     val maxValueSafe = if (maxValue == 0.0f) 1.0f else maxValue
@@ -84,7 +85,7 @@ fun DetailContent(
                 setAsFavorite = setAsFavorite
             )
             tvShow.seasons.forEach { season ->
-                DetailSeasonItem(season = season)
+                DetailSeasonItem(season = season, tvShowId = tvShow.id, onSeasonClick = onSeasonClick)
             }
         }
         AnimatedVisibility(
@@ -230,7 +231,9 @@ fun DetailSummary(
 @ExperimentalMaterial3Api
 @Composable
 fun DetailSeasonItem(
-    season: Season
+    season: Season,
+    tvShowId: String,
+    onSeasonClick: (tvShowId: String, seasonNumber: Int) -> Unit
 ) {
     Card(
         elevation = CardDefaults.cardElevation(
@@ -240,7 +243,8 @@ fun DetailSeasonItem(
             containerColor = MaterialTheme.colorScheme.backgroundCardColor
         ),
         shape = MaterialTheme.shapes.medium,
-        modifier = Modifier.padding(horizontal = COMMON_PADDING, vertical = PADDING_4)
+        modifier = Modifier.padding(horizontal = COMMON_PADDING, vertical = PADDING_4),
+        onClick = { onSeasonClick(tvShowId, season.seasonNumber) }
     ) {
         Row(
             modifier = Modifier
@@ -275,16 +279,18 @@ fun DetailSeasonItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Text(
-                    text = pluralStringResource(
-                        id = R.plurals.episodes,
-                        season.totalEpisodes,
-                        season.totalEpisodes
-                    ),
-                    color = VeryLightBlue,
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(vertical = PADDING_8)
-                )
+                season.totalEpisodes?.let { episodes ->
+                    Text(
+                        text = pluralStringResource(
+                            id = R.plurals.episodes,
+                            episodes,
+                            episodes
+                        ),
+                        color = VeryLightBlue,
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.padding(vertical = PADDING_8)
+                    )
+                }
                 Text(
                     text = season.overview,
                     maxLines = 3,
@@ -308,8 +314,11 @@ fun DetailSeasonItemPreview(
             name = "Season 1",
             posterPath = "",
             totalEpisodes = 7,
-            overview = "After the events, Hiro and his friends regroup and wonder how Obake "
-        )
+            overview = "After the events, Hiro and his friends regroup and wonder how Obake ",
+            seasonNumber = 1
+        ),
+        tvShowId = "1",
+        onSeasonClick = { _, _ -> }
     )
 }
 
@@ -348,27 +357,31 @@ fun DetailContentPreview() {
                     name = "Season 1",
                     posterPath = "",
                     totalEpisodes = 7,
-                    overview = "After the events, Hiro and his friends regroup and wonder how Obake "
+                    overview = "After the events, Hiro and his friends regroup and wonder how Obake ",
+                    seasonNumber = 1
                 ),
                 Season(
                     id = 0,
                     name = "Season 1",
                     posterPath = "",
                     totalEpisodes = 7,
-                    overview = "After the events, Hiro and his friends regroup and wonder how Obake "
+                    overview = "After the events, Hiro and his friends regroup and wonder how Obake ",
+                    seasonNumber = 1
                 ),
                 Season(
                     id = 0,
                     name = "Season 1",
                     posterPath = "",
                     totalEpisodes = 7,
-                    overview = "After the events, Hiro and his friends regroup and wonder how Obake "
+                    overview = "After the events, Hiro and his friends regroup and wonder how Obake ",
+                    seasonNumber = 1
                 )
             )
         ),
         scrollState = rememberScrollState(),
         setAsFavorite = {},
-        onBack = {}
+        onBack = {},
+        onSeasonClick = { _, _ -> }
     )
 }
 
@@ -396,26 +409,30 @@ fun DetailContentPreviewDark() {
                     name = "Season 1",
                     posterPath = "",
                     totalEpisodes = 7,
-                    overview = "After the events, Hiro and his friends regroup and wonder how Obake "
+                    overview = "After the events, Hiro and his friends regroup and wonder how Obake ",
+                    seasonNumber = 1
                 ),
                 Season(
                     id = 0,
                     name = "Season 1",
                     posterPath = "",
                     totalEpisodes = 7,
-                    overview = "After the events, Hiro and his friends regroup and wonder how Obake "
+                    overview = "After the events, Hiro and his friends regroup and wonder how Obake ",
+                    seasonNumber = 1
                 ),
                 Season(
                     id = 0,
                     name = "Season 1",
                     posterPath = "",
                     totalEpisodes = 7,
-                    overview = "After the events, Hiro and his friends regroup and wonder how Obake "
+                    overview = "After the events, Hiro and his friends regroup and wonder how Obake ",
+                    seasonNumber = 1
                 )
             )
         ),
         scrollState = rememberScrollState(),
         setAsFavorite = {},
-        onBack = {}
+        onBack = {},
+        onSeasonClick = { _, _ -> }
     )
 }

@@ -3,6 +3,7 @@ package com.bikcodeh.mubi.domain.repository
 import androidx.paging.PagingData
 import com.bikcodeh.mubi.domain.common.Result
 import com.bikcodeh.mubi.domain.entity.TvShowEntity
+import com.bikcodeh.mubi.domain.model.Season
 import com.bikcodeh.mubi.domain.model.TVShow
 import com.bikcodeh.mubi.domain.model.TvShowType
 import kotlinx.coroutines.flow.Flow
@@ -16,4 +17,5 @@ interface TvRepository {
     suspend fun updateTvShow(tvShow: TVShow)
     suspend fun getTvShowByIdLocal(tvShowId: String): TVShow?
     suspend fun getFavoritesTvShows(): List<TVShow>
+    suspend fun getDetailSeason(tvShowId: String, seasonNumber: Int): Result<Season>
 }
