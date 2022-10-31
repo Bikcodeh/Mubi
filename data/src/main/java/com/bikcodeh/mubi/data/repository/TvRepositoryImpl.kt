@@ -96,6 +96,10 @@ class TvRepositoryImpl @Inject constructor(
         return tvShowMapperEntity.map(tvShowDao.getTvShowById(tvShowId))
     }
 
+    override suspend fun getFavoritesTvShows(): List<TVShow> {
+        return tvShowDao.getFavorites().map { tvShowEntity ->  tvShowMapperEntity.map(tvShowEntity) }
+    }
+
     companion object {
         const val NETWORK_PAGE_SIZE = 10
     }

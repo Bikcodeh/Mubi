@@ -26,7 +26,7 @@ object Config {
     object Dependencies {
         object Version {
             const val coreKtx = "1.7.0"
-            const val daggerHilt = "2.43"
+            const val daggerHilt = "2.44"
             const val hiltCompiler = "1.0.0"
             const val retrofit = "2.9.0"
             const val okHttpLoggingInterceptor = "4.9.0"
@@ -116,8 +116,8 @@ object Config {
         }
 
         object ClassPath {
-            val hiltAndroid = "com.google.dagger:hilt-android-gradle-plugin:${Version.daggerHilt}"
-            val jacoco = "org.jacoco:org.jacoco.core:${Version.jacoco}"
+            const val hiltAndroid = "com.google.dagger:hilt-android-gradle-plugin:${Version.daggerHilt}"
+            const val jacoco = "org.jacoco:org.jacoco.core:${Version.jacoco}"
         }
     }
 }

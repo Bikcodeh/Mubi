@@ -36,7 +36,8 @@ import com.bikcodeh.mubi.presentation.theme.*
 fun ProfileContent(
     tvShows: List<TVShow>,
     onLogOut: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    favorites: List<TVShow>
 ) {
     Column(
         modifier = Modifier
@@ -59,7 +60,7 @@ fun ProfileContent(
             color = CoolGrey
         )
 
-        FavoritesSection(tvShows)
+        FavoritesSection(favorites)
 
         MubiActionButton(
             onClick = onLogOut,
@@ -137,7 +138,7 @@ fun ProfilePicture() {
 }
 
 @Composable
-fun FavoritesSection(tvShows: List<TVShow>) {
+fun FavoritesSection(favorites: List<TVShow>) {
     Text(
         text = stringResource(id = R.string.my_favorites),
         modifier = Modifier
@@ -157,7 +158,7 @@ fun FavoritesSection(tvShows: List<TVShow>) {
             .padding(start = COMMON_PADDING),
         horizontalArrangement = Arrangement.spacedBy(COMMON_PADDING)
     ) {
-        items(tvShows) { tvShow ->
+        items(favorites) { tvShow ->
             TvShowItem(tvShow = tvShow, onClickItem = {})
         }
     }
@@ -173,149 +174,153 @@ fun ProfilePicturePreview() {
 @Composable
 @Preview(showBackground = true)
 fun ProfileContentPreview() {
-    ProfileContent(
-        tvShows = listOf(
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            ),
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            ),
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            ),
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            )
+    val tvShows = listOf(
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
         ),
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
+        ),
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
+        ),
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
+        )
+    )
+    ProfileContent(
+        tvShows = tvShows,
         onLogOut = {},
-        onBack = {}
+        onBack = {},
+        favorites = tvShows
     )
 }
 
 @Composable
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 fun ProfileContentPreviewDark() {
-    ProfileContent(
-        tvShows = listOf(
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            ),
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            ),
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            ),
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "",
-                name = "Big Hero 6",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 4.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = emptyList()
-            )
+    val tvShows = listOf(
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
         ),
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
+        ),
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
+        ),
+        TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "",
+            name = "Big Hero 6",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 4.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = emptyList()
+        )
+    )
+    ProfileContent(
+        tvShows = tvShows,
         onLogOut = {},
-        onBack = {}
+        onBack = {},
+        favorites = tvShows
     )
 }
