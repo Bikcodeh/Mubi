@@ -5,8 +5,11 @@ object Util {
         if (time == null) return ""
         val hours = time / 60
         val minutes = time % 60
-        val builder =
-            StringBuilder().append(hours).append("h").append(" ").append(minutes).append("m")
+        val builder = StringBuilder()
+        if (hours != 0) {
+            builder.append(hours).append("h").append(" ")
+        }
+        builder.append(minutes).append("m")
         return builder.toString()
     }
 }
