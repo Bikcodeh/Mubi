@@ -119,5 +119,35 @@ object Config {
             const val hiltAndroid = "com.google.dagger:hilt-android-gradle-plugin:${Version.daggerHilt}"
             const val jacoco = "org.jacoco:org.jacoco.core:${Version.jacoco}"
         }
+        object Test {
+            object Version {
+                const val coreTesting = "2.1.0"
+                const val junit = "4.13.2"
+                const val androidxJunit = "1.1.3"
+                const val espresso = "3.4.0"
+                const val truth = "1.1.3"
+                const val coroutines = "1.6.3"
+                const val mockk = "1.12.4"
+                const val canaryLeak = "2.9.1"
+                const val hiltAndroid = "2.42"
+                const val mockWebServer = "4.10.0"
+            }
+
+            const val junit = "junit:junit:${Version.junit}"
+            const val androidxJunit = "androidx.test.ext:junit:${Version.androidxJunit}"
+            const val coreTesting = "androidx.arch.core:core-testing:${Version.coreTesting}"
+            const val truth = "com.google.truth:truth:${Version.truth}"
+            const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Version.coroutines}"
+            const val mockk = "io.mockk:mockk:${Version.mockk}"
+            const val mockkJvm = "io.mockk:mockk:${Version.mockk}"
+            const val canaryLeak = "com.squareup.leakcanary:leakcanary-android:${Version.canaryLeak}"
+            const val espresso = "androidx.test.espresso:espresso-core:${Version.espresso}"
+            const val hiltAndroid = "com.google.dagger:hilt-android-testing:${Version.hiltAndroid}"
+            const val hiltCompiler = "com.google.dagger:hilt-compiler:${Version.hiltAndroid}"
+            const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Version.mockWebServer}"
+            const val composeUiJunit = "androidx.compose.ui:ui-test-junit4:${Compose.Version.core}"
+            const val composeUiTooling = "androidx.compose.ui:ui-tooling:${Compose.Version.core}"
+            const val composeUiTestManifest = "androidx.compose.ui:ui-test-manifest:${Compose.Version.core}"
+        }
     }
 }
