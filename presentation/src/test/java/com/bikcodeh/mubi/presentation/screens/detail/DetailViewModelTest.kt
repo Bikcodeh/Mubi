@@ -74,24 +74,23 @@ class DetailViewModelTest {
     @Test
     fun `getDetailById should be successful`() = runTest {
         /** Given */
-        coEvery { getDetailTvShowUC(capture(slot)) } returns Result.Success(
-            TVShow(
-                backdropPath = "",
-                firstAirDate = "",
-                id = "1",
-                name = "test",
-                originalLanguage = "",
-                originalName = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                voteAverage = 0.0,
-                voteCount = 0,
-                isFavorite = false,
-                category = "",
-                seasons = listOf()
-            )
+        val tvShow = TVShow(
+            backdropPath = "",
+            firstAirDate = "",
+            id = "1",
+            name = "test",
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            voteAverage = 0.0,
+            voteCount = 0,
+            isFavorite = false,
+            category = "",
+            seasons = listOf()
         )
+        coEvery { getDetailTvShowUC(capture(slot)) } returns Result.Success(tvShow)
         val results = arrayListOf<DetailState>()
 
         val job = launch(UnconfinedTestDispatcher()) {
@@ -111,6 +110,7 @@ class DetailViewModelTest {
         assertThat(results[2].tvShow?.name).isEqualTo("test")
 
         coVerify { getDetailTvShowUC("1") }
+        coVerify { updateTvShowUC(tvShow) }
         job.cancel()
     }
 
