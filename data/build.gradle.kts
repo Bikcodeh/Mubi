@@ -38,6 +38,7 @@ kapt {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":core_test"))
     implementation(Config.Dependencies.Jetpack.coreKtx)
     implementation(Config.Dependencies.Jetpack.paging)
     implementation(Config.Dependencies.Jetpack.roomPaging)

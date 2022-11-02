@@ -25,4 +25,7 @@
     </plurals>
     <string name="episode_number">Episode %1$d</string>
     <string name="season_number">Season %1$s</string>
+    <string name="are_u_sure_u_want_to_leave">Are you sure you want to leave?</string>
+    <string name="stay_option">Stay</string>
+    <string name="leave_option">Leave</string>
 </resources>

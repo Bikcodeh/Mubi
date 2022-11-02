@@ -29,6 +29,7 @@ kapt {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":core_test"))
     implementation(Config.Dependencies.Jetpack.coreKtx)
     debugImplementation(Config.Dependencies.leakCanary)
     /** Dagger */

@@ -1,5 +1,10 @@
 package com.bikcodeh.mubi.presentation.navigation
 
+/**
+ * Sealed class to wrap all the possible screens in the app
+ * @param route: the specific route of the screen
+ */
+
 sealed class Screens(val route: String) {
     object Splash : Screens("splash_screen")
     object Home : Screens("home_screen")

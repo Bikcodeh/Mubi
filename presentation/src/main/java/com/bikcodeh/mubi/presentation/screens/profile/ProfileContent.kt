@@ -9,10 +9,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,11 +34,12 @@ import com.bikcodeh.mubi.presentation.theme.*
 
 @Composable
 fun ProfileContent(
-    tvShows: List<TVShow>,
     onLogOut: () -> Unit,
     onBack: () -> Unit,
     favorites: List<TVShow>
 ) {
+    val openDialog = rememberSaveable { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,7 +64,7 @@ fun ProfileContent(
         FavoritesSection(favorites)
 
         MubiActionButton(
-            onClick = onLogOut,
+            onClick = { openDialog.value = true },
             buttonTextResId = R.string.log_out,
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,6 +75,42 @@ fun ProfileContent(
                     bottom = PADDING_32
                 )
         )
+        if (openDialog.value) {
+            AlertDialog(
+                modifier = Modifier.fillMaxWidth(),
+                containerColor = MaterialTheme.colorScheme.backgroundColor,
+                onDismissRequest = { openDialog.value = false },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.are_u_sure_u_want_to_leave),
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        openDialog.value = false
+                    }) {
+                        Text(
+                            text = stringResource(id = R.string.stay_option).uppercase(),
+                            color = VeryLightBlue,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        openDialog.value = false
+                        onLogOut()
+                    }) {
+                        Text(
+                            text = stringResource(id = R.string.leave_option).uppercase(),
+                            color = Red,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -241,7 +278,6 @@ fun ProfileContentPreview() {
         )
     )
     ProfileContent(
-        tvShows = tvShows,
         onLogOut = {},
         onBack = {},
         favorites = tvShows
@@ -318,7 +354,6 @@ fun ProfileContentPreviewDark() {
         )
     )
     ProfileContent(
-        tvShows = tvShows,
         onLogOut = {},
         onBack = {},
         favorites = tvShows

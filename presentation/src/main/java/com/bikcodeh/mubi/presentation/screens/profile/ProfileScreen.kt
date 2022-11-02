@@ -23,7 +23,6 @@ fun ProfileScreen(
     }
 
     ProfileContent(
-        tvShows = emptyList(),
         onLogOut = {
             loginViewModel.saveLogin(isLoggedIn = false)
             onLogOut()
