@@ -22,6 +22,9 @@ inline fun <R, T> Result<T>.fold(
     is Result.Exception -> onException(exception)
 }
 
+/**
+ * Extension function to retrieve only the success value
+ */
 fun <T> Result<T>.getSuccess() = when (this) {
     is Result.Success -> data
     else -> null

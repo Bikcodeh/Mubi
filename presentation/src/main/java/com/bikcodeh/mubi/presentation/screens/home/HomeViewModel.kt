@@ -26,6 +26,7 @@ class HomeViewModel @Inject constructor(
 
     fun searchTvShows(tvShowType: TvShowType) {
         tvShows.value = getTvShowsUC(tvShowType = tvShowType)
+            .flowOn(dispatcher)
             .cachedIn(viewModelScope)
             .map { page -> page.map { tvShowMapperEntity.map(it) } }
     }
