@@ -126,7 +126,7 @@
 
 | Leave confirm |   Profile  |   Searched | Season  | Pagination error | 
 | :-----------------:| :----------------------: | :----------------:| :----------------:| :----------------:|
-<img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/leave_confirm_dark.png" align="left" height="300" width="170">| <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/profile_dark.png" align="left" height="300" width="170"> |  <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/searched_dark.png" align="left" height="300" width="170"> | <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/season_dark.png" align="left" height="300" width="170"> | <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/error_pagination_dark.png" align="left" height="300" width="170"> |
+<img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/leave_confirm_dark.png" align="left" height="300" width="170">| <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/profile_dark.png" align="left" height="300" width="170"> |  <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/searched_dark.png" align="left" height="300" width="170"> | <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/season_dark_mode.png" align="left" height="300" width="170"> | <img src="https://raw.githubusercontent.com/Bikcodeh/Mubi/main/assets/screenshots/error_pagination_dark.png" align="left" height="300" width="170"> |
 
 | Error |
 | :------------:| 
