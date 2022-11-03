@@ -20,6 +20,7 @@ import com.bikcodeh.mubi.presentation.components.MubiBackButton
 import com.bikcodeh.mubi.presentation.theme.COMMON_PADDING
 import com.bikcodeh.mubi.presentation.theme.GhostWhite
 import com.bikcodeh.mubi.presentation.theme.VeryLightBlue
+import com.bikcodeh.mubi.presentation.theme.backgroundColorTopBar
 
 @ExperimentalLifecycleComposeApi
 @ExperimentalMaterial3Api
@@ -49,7 +50,7 @@ fun SeasonScreen(
                 navigationIcon = {
                     MubiBackButton(onBack = onBack)
                 },
-                backgroundColor = VeryLightBlue
+                backgroundColor = MaterialTheme.colorScheme.backgroundColorTopBar
             )
 
         }

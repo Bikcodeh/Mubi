@@ -29,7 +29,7 @@ fun GenericTopBar(
         titleTop
     }
     Surface(
-        color = VeryLightBlue,
+        color = MaterialTheme.colorScheme.backgroundColorTopBar,
         modifier = Modifier
             .fillMaxWidth()
             .height(DEFAULT_HEIGHT_TOP_BAR)
